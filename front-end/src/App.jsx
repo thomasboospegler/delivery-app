@@ -8,6 +8,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/register" component={ Register } />
+        <Route exact path="/customer/products" />
       </Switch>
     </div>
   );
