@@ -9,25 +9,11 @@ export default function Register({ history }) {
   });
   const [disabled, setDisable] = useState(true);
 
-  const PASSWORD_MIN_LENGTH = 5;
-  const NAME_MIN_LENGTH = 11;
-
-  const validateEntry = () => {
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (emailRegex.test(userRegister.email)
-    && userRegister.password.length >= PASSWORD_MIN_LENGTH
-    && userRegister.name.length >= NAME_MIN_LENGTH) {
-      console.log('if');
-      setDisable(false);
-    } else {
-      console.log(userRegister.password.length);
-      setDisable(true);
-    }
-  };
+  const PASSWORD_MIN_LENGTH = 6;
+  const NAME_MIN_LENGTH = 12;
 
   const handleChage = (e) => {
     const { name, value } = e.target;
-    validateEntry();
     setUserRegister((previous) => ({
       ...previous,
       [name]: value,
@@ -39,8 +25,20 @@ export default function Register({ history }) {
   };
 
   useEffect(() => {
-
-  }, []);
+    const validateEntry = () => {
+      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (emailRegex.test(userRegister.email)
+      && userRegister.password.length >= PASSWORD_MIN_LENGTH
+      && userRegister.name.length >= NAME_MIN_LENGTH) {
+        console.log('if');
+        setDisable(false);
+      } else {
+        console.log(userRegister.password.length);
+        setDisable(true);
+      }
+    };
+    validateEntry();
+  }, [userRegister]);
   return (
     <div className="register-container">
       <label htmlFor="nameRegister">
