@@ -9,9 +9,9 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await loginService.getUserByEmail(email);
-  console.log(user, 'service')
-  console.log(password)
-  console.log(user.password)
+  console.log(user, 'service');
+  console.log(password);
+  console.log(user.password);
   if (!user || password !== user.password) {
     return res.status(400).json({ message: 'Invalid fields' });
   }

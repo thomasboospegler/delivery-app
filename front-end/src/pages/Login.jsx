@@ -9,7 +9,7 @@ export default function Login() {
 
   const validateInputs = () => {
     const emailRegex = /[^@]+@[^@]+\.[^@]+/gi;
-    const MIN_LENGTH = 6;
+    const MIN_LENGTH = 5;
     const isEmailValid = emailRegex.test(email);
     const isNameValid = password.length > MIN_LENGTH;
     return !(isNameValid && isEmailValid);
