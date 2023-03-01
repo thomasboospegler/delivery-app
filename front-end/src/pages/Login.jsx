@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router';
+import { useHistory } from 'react-router';
+import { login } from '../api/user';
+
+const SUCESS_STATUS = 200;
 
 export default function Login() {
-  // const history = useHistory();
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState(false);
@@ -15,13 +18,18 @@ export default function Login() {
     return !(isNameValid && isEmailValid);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // chamar a api e porcurar o usuario
+  // Do cliente: /customer/products,
+  // Da pessoa vendedora: /seller/orders,
+  // Da pessoa administradora: /admin/manage
 
-    // se existir redireciona para ....
-    console.log('logou');
-    // se nao existir aparece o texto
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const result = await login({ email, password });
+    if (result === SUCESS_STATUS) {
+      console.log('logou');
+      setErrorMessage(false);
+      return history.push('/customer/products');
+    }
     setErrorMessage(true);
   };
 
