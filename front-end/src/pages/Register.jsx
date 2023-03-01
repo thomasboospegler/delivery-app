@@ -29,7 +29,7 @@ export default function Register({ history }) {
       setHasError(true);
       setErrorMessage(registered);
     }
-    history.push('/');
+    history.push('/customer/products');
   };
 
   useEffect(() => {
@@ -77,7 +77,7 @@ export default function Register({ history }) {
         Senha:
         <input
           data-test-id="common_register__input-password"
-          type="text"
+          type="password"
           id="passwordRegister"
           name="password"
           value={ userRegister.password }
