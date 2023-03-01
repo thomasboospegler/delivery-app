@@ -9,6 +9,8 @@ export default function Register({ history }) {
     password: '',
   });
   const [disabled, setDisable] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const PASSWORD_MIN_LENGTH = 6;
   const NAME_MIN_LENGTH = 12;
@@ -22,7 +24,11 @@ export default function Register({ history }) {
   };
 
   const submitClick = async () => {
-    await registerNewUser(userRegister);
+    const registered = await registerNewUser(userRegister);
+    if (typeof registered === 'string') {
+      setHasError(true);
+      setErrorMessage(registered);
+    }
     history.push('/');
   };
 
@@ -87,9 +93,11 @@ export default function Register({ history }) {
       >
         Cadastrar
       </button>
-      <span data-test-id="common_register__element-invalid_register">
-        Elemento oculto (Mensagens de erro)
-      </span>
+      { hasError && (
+        <span data-test-id="common_register__element-invalid_register">
+          { errorMessage }
+        </span>
+      )}
     </div>
   );
 }
