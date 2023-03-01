@@ -26,7 +26,6 @@ export default function Login() {
     event.preventDefault();
     const result = await login({ email, password });
     if (result === SUCESS_STATUS) {
-      console.log('logou');
       setErrorMessage(false);
       return history.push('/customer/products');
     }
@@ -76,6 +75,7 @@ export default function Login() {
           <button
             type="button"
             data-testid="common_login__button-register"
+            onClick={ () => history.push('/register') }
           >
             Ainda não tenho conta
           </button>
