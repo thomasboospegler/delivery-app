@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import { registerNewUser } from '../api/user';
 
-export default function Register({ history }) {
+export default function Register() {
+  const history = useHistory();
   const [userRegister, setUserRegister] = useState({
     name: '',
     email: '',
@@ -14,6 +15,7 @@ export default function Register({ history }) {
 
   const PASSWORD_MIN_LENGTH = 6;
   const NAME_MIN_LENGTH = 12;
+  const SUCCESS = 201;
 
   const handleChage = (e) => {
     const { name, value } = e.target;
@@ -25,23 +27,23 @@ export default function Register({ history }) {
 
   const submitClick = async () => {
     const registered = await registerNewUser(userRegister);
-    if (typeof registered === 'string') {
+    console.log(registered);
+    if (registered === SUCCESS) {
+      history.push('/customer/products');
+    } else {
       setHasError(true);
       setErrorMessage(registered);
     }
-    history.push('/customer/products');
   };
 
   useEffect(() => {
     const validateEntry = () => {
-      const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      const emailRegex = /[^@]+@[^@]+\.[^@]+/gi;
       if (emailRegex.test(userRegister.email)
       && userRegister.password.length >= PASSWORD_MIN_LENGTH
       && userRegister.name.length >= NAME_MIN_LENGTH) {
-        console.log('if');
         setDisable(false);
       } else {
-        console.log(userRegister.password.length);
         setDisable(true);
       }
     };
@@ -52,7 +54,7 @@ export default function Register({ history }) {
       <label htmlFor="nameRegister">
         Nome:
         <input
-          data-test-id="common_register__input-name"
+          data-testid="common_register__input-name"
           type="text"
           id="nameRegister"
           name="name"
@@ -64,7 +66,7 @@ export default function Register({ history }) {
       <label htmlFor="emailRegister">
         Email:
         <input
-          data-test-id="common_register__input-email"
+          data-testid="common_register__input-email"
           type="text"
           id="email"
           name="email"
@@ -76,7 +78,7 @@ export default function Register({ history }) {
       <label htmlFor="passwordRegister">
         Senha:
         <input
-          data-test-id="common_register__input-password"
+          data-testid="common_register__input-password"
           type="password"
           id="passwordRegister"
           name="password"
@@ -86,7 +88,7 @@ export default function Register({ history }) {
         />
       </label>
       <button
-        data-test-id="common_register__button-register"
+        data-testid="common_register__button-register"
         type="button"
         onClick={ submitClick }
         disabled={ disabled }
@@ -94,16 +96,10 @@ export default function Register({ history }) {
         Cadastrar
       </button>
       { hasError && (
-        <span data-test-id="common_register__element-invalid_register">
+        <span data-testid="common_register__element-invalid_register">
           { errorMessage }
         </span>
       )}
     </div>
   );
 }
-
-Register.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-};

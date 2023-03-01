@@ -21,7 +21,7 @@ export const registerNewUser = async (user) => axios
     case BAD_REQUEST:
       return 'Some fields are invalid';
     case USER_ALREADY_REGISTERED:
-      return error.response.message;
+      return 'User already registered';
     default:
       return 'internal server error';
     }
