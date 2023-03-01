@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { registerNewUser } from '../api/user';
 
 export default function Register({ history }) {
   const [userRegister, setUserRegister] = useState({
@@ -21,6 +22,7 @@ export default function Register({ history }) {
   };
 
   const submitClick = async () => {
+    await registerNewUser(userRegister);
     history.push('/');
   };
 
