@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import jwt from 'jsonwebtoken';
 import { useHistory } from 'react-router';
 import { login } from '../api/user';
+import Context from '../context/Context';
+
+const secret = process.env.JWT_SECRET || 'jwt_secret';
 
 const SUCESS_STATUS = 200;
 
 export default function Login() {
+  const { setLsUserData } = useContext(Context);
+
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,15 +24,30 @@ export default function Login() {
     return !(isNameValid && isEmailValid);
   };
 
+  const decodedToken = (token) => {
+    const decoded = jwt.verify(token, secret);
+    return decoded;
+  };
+
   // Do cliente: /customer/products,
   // Da pessoa vendedora: /seller/orders,
   // Da pessoa administradora: /admin/manage
+  const saveOnLocalStorage = (token) => {
+    const decoded = decodedToken(token);
+    setLsUserData({
+      name: decoded.name,
+      email: decoded.email,
+      role: decoded.role,
+      token,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const result = await login({ email, password });
-    if (result === SUCESS_STATUS) {
+    if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
+      saveOnLocalStorage(result.token);
       return history.push('/customer/products');
     }
     setErrorMessage(true);

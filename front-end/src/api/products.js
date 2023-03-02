@@ -12,7 +12,7 @@ export const products = async () => axios
       },
     },
   )
-  .then((data) => data.status)
+  .then((data) => data.data)
   .catch((error) => {
     switch (error.response.status) {
     case NOT_FOUND:
