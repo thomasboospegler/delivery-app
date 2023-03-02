@@ -3,9 +3,12 @@ const express = require('express');
 const router = express.Router();
 const loginRouter = require('./login.router');
 const registerRouter = require('./register.route');
+const salesRouter = require('./sales.route');
 
 router.use('/register', registerRouter);
 
 router.use('/login', loginRouter);
+
+router.use('/sales', salesRouter);
 
 module.exports = router;
