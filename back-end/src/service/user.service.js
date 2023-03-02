@@ -1,5 +1,5 @@
-const { User } = require('../database/models');
 const md5 = require('md5');
+const { User } = require('../database/models');
 
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
