@@ -17,7 +17,7 @@ export default function Header() {
         onClick={ () => history.push('/customer/orders') }
         data-testid="customer_products__element-navbar-link-orders"
       >
-        MEUS PRODUTOS
+        MEUS PEDIDOS
       </button>
       <button
         type="button"
