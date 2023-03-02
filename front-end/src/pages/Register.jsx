@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { registerNewUser } from '../api/user';
+import Context from '../context/Context';
 
 export default function Register() {
+  const {
+    userRegister,
+    setUserRegister,
+  } = useContext(Context);
   const history = useHistory();
-  const [userRegister, setUserRegister] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
   const [disabled, setDisable] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
