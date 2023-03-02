@@ -8,10 +8,19 @@ export default function Provider({ children }) {
     email: '',
     password: '',
   });
+
+  const [customerAddress, setCustomerAddress] = useState({
+    seller: 'Fulana Pereira',
+    address: '',
+    addressNumber: '',
+  });
+
   const context = useMemo(() => ({
     userRegister,
     setUserRegister,
-  }), [userRegister]);
+    customerAddress,
+    setCustomerAddress,
+  }), [userRegister, customerAddress]);
   return (
     <Context.Provider value={ context }>
       { children }
