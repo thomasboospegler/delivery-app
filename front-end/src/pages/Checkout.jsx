@@ -10,7 +10,7 @@ export default function Checkout() {
   } = useContext(Context);
 
   const sellers = ['Fulana Pereira', 'Fulano Pereira'];
-  const mock = [
+  const productsMock = [
     { item: 1,
       description: 'cerveja 1',
       quantity: 3,
@@ -52,7 +52,7 @@ export default function Checkout() {
           </tr>
         </thead>
         <tbody>
-          { mock.map((data, i) => (
+          { productsMock.map((data, i) => (
             <TableBody data={ data } index={ i } key={ `${data.description}-${i}` } />
           ))}
         </tbody>
