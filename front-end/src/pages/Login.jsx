@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../api/user';
+import Context from '../context/Context';
 
 const SUCESS_STATUS = 200;
+const TO_STRING = 16;
+const SLICE = -2;
 
 export default function Login() {
+  const { setLsUserData } = useContext(Context);
   const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,15 +22,39 @@ export default function Login() {
     return !(isNameValid && isEmailValid);
   };
 
+  // https://stackoverflow.com/questions/38552003/how-to-decode-jwt-token-in-javascript-without-using-a-library
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window
+      .atob(base64).split('')
+      .map((c) => `%${(`00${c.charCodeAt(0).toString(TO_STRING)}`)
+        .slice(SLICE)}`).join(''));
+
+    return JSON.parse(jsonPayload);
+  }
+
   // Do cliente: /customer/products,
   // Da pessoa vendedora: /seller/orders,
   // Da pessoa administradora: /admin/manage
+  const saveOnLocalStorage = (token) => {
+    const decoded = parseJwt(token);
+    console.log(decoded, 'token');
+    setLsUserData({
+      name: decoded.data.name,
+      email: decoded.data.email,
+      role: decoded.data.role,
+      token,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const result = await login({ email, password });
-    if (result === SUCESS_STATUS) {
+    console.log(result);
+    if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
+      saveOnLocalStorage(result.data.token);
       return history.push('/customer/products');
     }
     setErrorMessage(true);
