@@ -39,11 +39,13 @@ export default function Products() {
         <button
           type="button"
           name="totalButton"
-          data-testid="customer_products__checkout-bottom-value"
+          data-testid="customer_products__button-cart"
           disabled={ isDisabled }
           onClick={ () => history.push('/customer/checkout') }
         >
-          {totalCart.toFixed(2).replace('.', ',')}
+          <p data-testid="customer_products__checkout-bottom-value">
+            {totalCart.toFixed(2).replace('.', ',')}
+          </p>
         </button>
       </div>
     </section>
