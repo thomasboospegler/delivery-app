@@ -1,42 +1,55 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 
 export default function ProductCard({ product }) {
   const [quantity, setQuantity] = useState(0);
-  const [cartProduct, setCartProduct] = useState();
-  const { setCartItems } = useContext(Context);
+  // const [cartProduct, setCartProduct] = useState({});
+  const { cartItems, setCartItems } = useContext(Context);
 
-  const sendToLocalStorage = (productItem) => {
-    setCartItems(productItem);
-  };
+  // const sendToLocalStorage = (productItem) => {
+  //   setCartItems(productItem);
+  // };
 
   const addItems = () => {
-    setCartProduct({
+    const newCartItem = {
       id: product.id,
       name: product.name,
       unitPrice: product.price,
       quantity,
       urlImage: product.url_img,
-    });
-    sendToLocalStorage(cartProduct);
+    };
+    const updatedCartItems = {
+      ...cartItems,
+      [product.id]: newCartItem,
+    };
+    setCartItems(updatedCartItems);
   };
 
   const rmQuantity = () => {
     if (quantity > 0) {
-      setCartProduct({
+      const updatedCartItem = {
         id: product.id,
         name: product.name,
         unitPrice: product.price,
         quantity,
         urlImage: product.url_img,
-      });
-      sendToLocalStorage(cartProduct);
+      };
+      const updatedCartItems = {
+        ...cartItems,
+        [product.id]: updatedCartItem,
+      };
+      setCartItems(updatedCartItems);
     } else {
-      setCartProduct({ });
-      setCartItems('');
+      const newCartItems = { ...cartItems };
+      delete newCartItems[product.id];
+      setCartItems(newCartItems);
     }
   };
+
+  useEffect(() => {
+    addItems();
+  }, [quantity]);
 
   return (
     <div key={ product.id }>
@@ -69,6 +82,7 @@ export default function ProductCard({ product }) {
       <input
         type="number"
         value={ quantity }
+        onChange={ (e) => setQuantity(e.target.value) }
         data-testid={ `customer_products__input-card-quantity-${product.id}` }
       />
       <button

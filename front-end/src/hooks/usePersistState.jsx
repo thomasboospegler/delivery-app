@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 
 export default (storageKey, initialState) => {
-  console.log(storageKey, initialState);
   const [state, setState] = useState(() => {
     try {
       const storedValue = localStorage.getItem(storageKey);
