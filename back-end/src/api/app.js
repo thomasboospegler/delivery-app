@@ -1,8 +1,11 @@
 const express = require('express');
 const routes = require('../routes/routes');
+const path = require('path')
 
 const app = express();
 app.use(express.json());
+
+app.use('images', express.static(path.resolve(__dirname, "../assets/images/public")))
 
 app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
