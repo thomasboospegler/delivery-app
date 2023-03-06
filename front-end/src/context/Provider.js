@@ -17,13 +17,7 @@ export default function Provider({ children }) {
     token: '',
   });
 
-  const [cartItems, setCartItems] = usePersistState('cartItems', {
-    id: '',
-    name: '',
-    unitPrice: '',
-    quantity: '',
-    urlImage: '',
-  });
+  const [cartItems, setCartItems] = usePersistState('cartItems', {});
 
   const context = useMemo(() => ({
     userRegister,

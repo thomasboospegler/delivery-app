@@ -11,6 +11,7 @@ export default function Products() {
 
   const setStateProduct = async () => {
     const dataProducts = await products();
+    console.log(dataProducts);
     return setProduct(dataProducts);
   };
 

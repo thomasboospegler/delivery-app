@@ -1,23 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 
 export default function ProductCard({ product }) {
   const [quantity, setQuantity] = useState(0);
-  // const [cartProduct, setCartProduct] = useState({});
   const { cartItems, setCartItems } = useContext(Context);
 
-  // const sendToLocalStorage = (productItem) => {
-  //   setCartItems(productItem);
-  // };
-
-  const addItems = () => {
+  const addItems = (itemQuantity) => {
     const newCartItem = {
       id: product.id,
       name: product.name,
       unitPrice: product.price,
-      quantity,
+      quantity: itemQuantity,
       urlImage: product.url_img,
+      subTotal: (Number(product.price) * itemQuantity).toFixed(2),
     };
     const updatedCartItems = {
       ...cartItems,
@@ -26,30 +22,27 @@ export default function ProductCard({ product }) {
     setCartItems(updatedCartItems);
   };
 
-  const rmQuantity = () => {
-    if (quantity > 0) {
+  const rmItem = (itemQuantity) => {
+    if (itemQuantity === 0) {
+      const newCartItems = { ...cartItems };
+      delete newCartItems[product.id];
+      setCartItems(newCartItems);
+    } else {
       const updatedCartItem = {
         id: product.id,
         name: product.name,
         unitPrice: product.price,
-        quantity,
+        quantity: itemQuantity,
         urlImage: product.url_img,
+        subTotal: (Number(product.price) * itemQuantity).toFixed(2),
       };
       const updatedCartItems = {
         ...cartItems,
         [product.id]: updatedCartItem,
       };
       setCartItems(updatedCartItems);
-    } else {
-      const newCartItems = { ...cartItems };
-      delete newCartItems[product.id];
-      setCartItems(newCartItems);
     }
   };
-
-  useEffect(() => {
-    addItems();
-  }, [quantity]);
 
   return (
     <div key={ product.id }>
@@ -73,7 +66,7 @@ export default function ProductCard({ product }) {
         data-testid={ `customer_products__button-card-add-item-${product.id}` }
         onClick={ () => {
           setQuantity(quantity + 1);
-          addItems();
+          addItems(quantity + 1);
         } }
       >
         +
@@ -90,7 +83,7 @@ export default function ProductCard({ product }) {
         data-testid={ `customer_products__button-card-rm-item-${product.id}` }
         onClick={ () => {
           setQuantity(quantity > 0 ? quantity - 1 : 0);
-          rmQuantity();
+          rmItem(quantity - 1);
         } }
       >
         -
