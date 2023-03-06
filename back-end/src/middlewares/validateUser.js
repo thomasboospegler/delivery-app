@@ -1,5 +1,9 @@
 const { loginSchema } = require('./schemas');
 const userService = require('../service/user.service');
+const fs = require('fs');
+
+const jwtKey = fs.readFileSync('jwt.evaluation.key');
+
 
 const validateUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -13,4 +17,18 @@ const validateUser = async (req, res, next) => {
   next();
 };
 
-module.exports = validateUser;
+
+const validateToken = async (req, res, next) => {
+  const { authorization: token } = req.headers;
+  if (!token) {
+    return res.status(401).json({ message: 'not have token' });
+  }
+  try {
+    jwt.verify(token, jwtKey);
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Token must be a valid token' });
+  }
+}
+
+module.exports = { validateUser, validateToken };
