@@ -52,5 +52,51 @@ describe('Test the user controller', () => {
       expect(res.status.calledWith(200)).to.be.equal(true);
     });
   });
+
+  describe('Test the Register router', function () {
+    afterEach(function () {
+      sinon.restore();
+    });
+
+    it('Test with already existed user', async function () {
+      const res = {};
+      const req = {
+        body: {
+          email: 'test@test.com',
+          password: '123456',
+        },
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+      .stub(userService, 'createUser')
+      .resolves(null);
+
+      await userController.createUser(req, res);
+
+      expect(res.status.calledWith(409)).to.be.equal(true);
+    });
+
+    it('Test with valid credentials', async function () {
+      const res = {};
+      const req = {
+        body: {
+          email: 'test@test.com',
+          password: '123456789',
+        },
+      };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+
+      sinon
+        .stub(userService, 'createUser')
+        .resolves({ password: '25f9e794323b453885f5181f1b624d0b' });
+
+      await userController.createUser(req, res);
+
+      expect(res.status.calledWith(201)).to.be.equal(true);
+    });
+  });
 });
 
