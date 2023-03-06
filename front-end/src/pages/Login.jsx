@@ -39,7 +39,6 @@ export default function Login() {
   // Da pessoa administradora: /admin/manage
   const saveOnLocalStorage = (token) => {
     const decoded = parseJwt(token);
-    console.log(decoded, 'token');
     setLsUserData({
       name: decoded.data.name,
       email: decoded.data.email,
@@ -51,7 +50,6 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const result = await login({ email, password });
-    console.log(result);
     if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
       saveOnLocalStorage(result.data.token);

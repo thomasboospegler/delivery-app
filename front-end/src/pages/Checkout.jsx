@@ -1,34 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
 import TableBody from '../components/TableBody';
 import Context from '../context/Context';
+import { getSellers } from '../api/user';
+import { createSale } from '../api/sales';
 
 export default function Checkout() {
+  const history = useHistory();
   const {
     customerAddress,
     setCustomerAddress,
+    cartItems,
+    setCartItems,
+    lsUserData,
   } = useContext(Context);
 
-  const sellers = ['Fulana Pereira', 'Fulano Pereira'];
-  const productsMock = [
-    { item: 1,
-      description: 'cerveja 1',
-      quantity: 3,
-      unitValue: 'R$3,50',
-      subtotal: 'R$: 10.50' },
-    { item: 2,
-      description: 'cerveja 2',
-      quantity: 4,
-      unitValue: 'R$4,10',
-      subtotal: 'R$: 16.40' },
-    { item: 3,
-      description: 'cerveja 3',
-      quantity: 1,
-      unitValue: 'R$1,56',
-      subtotal: 'R$: 1.56' },
-  ];
+  const [sellers, setSellers] = useState([]);
 
-  const total = 28.46;
+  const items = Object.values(cartItems);
+
+  const getTotal = () => {
+    if (items) {
+      const total = items.reduce((acc, curr) => acc + Number(curr.subTotal), 0);
+      return total.toFixed(2);
+    }
+    return 0.00;
+  };
+
+  const removeItem = (id) => {
+    const newCartItems = { ...cartItems };
+    delete newCartItems[id];
+    setCartItems(newCartItems);
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     setCustomerAddress((prev) => ({
@@ -36,6 +40,31 @@ export default function Checkout() {
       [name]: value,
     }));
   };
+
+  const concludeSale = async () => {
+    const sale = {
+      userEmail: lsUserData.email,
+      sellerName: customerAddress.seller,
+      totalPrice: Number(getTotal()),
+      deliveryAddress: customerAddress.address,
+      deliveryNumber: customerAddress.addressNumber,
+      productsId: Object.values(cartItems).map((item) => item.id),
+      quantity: Object.values(cartItems).map((item) => item.quantity),
+    };
+    const result = await createSale(sale);
+    history.push(`/customer/orders/${result.data.insertedId}`);
+  };
+
+  useEffect(() => {
+    const getInitialSellers = async () => {
+      const sellersFromApi = await getSellers();
+      sellersFromApi.data.map((seller) => setSellers((prev) => [
+        ...prev,
+        Object.values(seller),
+      ]));
+    };
+    getInitialSellers();
+  }, []);
   return (
     <div className="checkout-main-container">
       <Header />
@@ -52,12 +81,17 @@ export default function Checkout() {
           </tr>
         </thead>
         <tbody>
-          { productsMock.map((data, i) => (
-            <TableBody data={ data } index={ i } key={ `${data.description}-${i}` } />
+          { items && items.map((data, i) => (
+            <TableBody
+              data={ data }
+              index={ i }
+              key={ `${data.description}-${i}` }
+              removeItem={ removeItem }
+            />
           ))}
         </tbody>
         <div data-testid="customer_checkout__element-order-total-price">
-          {`Total: R$: ${total}`}
+          {`Total: R$: ${getTotal()}`}
         </div>
       </table>
       <fieldset>
@@ -97,7 +131,11 @@ export default function Checkout() {
             data-testid="customer_checkout__input-address-number"
           />
         </label>
-        <button type="button" data-testid="customer_checkout__button-submit-order">
+        <button
+          type="button"
+          data-testid="customer_checkout__button-submit-order"
+          onClick={ concludeSale }
+        >
           FINALIZAR PEDIDO
         </button>
       </fieldset>
