@@ -15,7 +15,6 @@ const login = async (req, res) => {
   if (!user || encryptPassword !== user.password) {
     return res.status(404).json({ message: 'Invalid fields' });
   }
-  console.log(user);
   const token = jwt.sign({ data: { email, name: user.name, role: user.role } }, jwtKey, jwtConfig);
   return res.status(200).json({ token });
 };

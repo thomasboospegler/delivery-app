@@ -9,14 +9,19 @@ import { createSale } from '../api/sales';
 export default function Checkout() {
   const history = useHistory();
   const {
-    customerAddress,
-    setCustomerAddress,
     cartItems,
     setCartItems,
     lsUserData,
   } = useContext(Context);
 
   const [sellers, setSellers] = useState([]);
+  const [sellerDefault, setSellerDefault] = useState();
+
+  const [customerAddress, setCustomerAddress] = useState({
+    seller: '',
+    address: '',
+    addressNumber: '',
+  });
 
   const items = Object.values(cartItems);
 
@@ -35,6 +40,9 @@ export default function Checkout() {
   };
 
   const handleChange = ({ target: { name, value } }) => {
+    // if (name === 'seller') {
+    //   return setSellerDefault({ [name]: value });
+    // }
     setCustomerAddress((prev) => ({
       ...prev,
       [name]: value,
@@ -42,27 +50,28 @@ export default function Checkout() {
   };
 
   const concludeSale = async () => {
+    console.log(sellerDefault);
     const sale = {
       userEmail: lsUserData.email,
-      sellerName: customerAddress.seller,
+      sellerName: sellerDefault,
       totalPrice: Number(getTotal().replace(',', '.')),
       deliveryAddress: customerAddress.address,
       deliveryNumber: customerAddress.addressNumber,
       productsId: Object.values(cartItems).map((item) => item.id),
       quantity: Object.values(cartItems).map((item) => item.quantity),
     };
-    console.log(sale);
-    const result = await createSale(sale);
+
+    const result = await createSale(sale, lsUserData.token);
     history.push(`/customer/orders/${result.data.insertedId}`);
   };
 
   useEffect(() => {
     const getInitialSellers = async () => {
       const sellersFromApi = await getSellers();
-      sellersFromApi.data.map((seller) => setSellers((prev) => [
-        ...prev,
-        Object.values(seller),
-      ]));
+
+      setSellers(sellersFromApi.data);
+
+      setSellerDefault(...Object.values(sellersFromApi.data[0]));
     };
     getInitialSellers();
   }, []);
@@ -106,8 +115,13 @@ export default function Checkout() {
             id="seller-input"
             data-testid="customer_checkout__select-seller"
           >
-            { sellers.map((seller, i) => (
-              <option value={ seller } key={ `${seller}-${i}` }>{ seller }</option>
+            { sellers?.map((seller, i) => (
+              <option
+                value={ seller.name }
+                key={ `${seller}-${i}` }
+              >
+                { seller.name }
+              </option>
             ))}
           </select>
         </label>

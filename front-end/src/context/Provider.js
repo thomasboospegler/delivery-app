@@ -10,12 +10,6 @@ export default function Provider({ children }) {
     password: '',
   });
 
-  const [customerAddress, setCustomerAddress] = useState({
-    seller: 'Fulana Pereira',
-    address: '',
-    addressNumber: '',
-  });
-
   const [lsUserData, setLsUserData] = usePersistState('user', {
     name: '',
     email: '',
@@ -34,8 +28,6 @@ export default function Provider({ children }) {
     cartItems,
     totalCart,
     setCartItems,
-    customerAddress,
-    setCustomerAddress,
     setTotalCart,
   }), [
     userRegister,
@@ -44,7 +36,6 @@ export default function Provider({ children }) {
     cartItems,
     totalCart,
     setCartItems,
-    customerAddress,
     setTotalCart,
   ]);
   return (

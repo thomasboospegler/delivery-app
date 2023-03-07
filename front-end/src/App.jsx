@@ -18,7 +18,6 @@ function App() {
           <Route exact path="/customer/products" component={ Products } />
           <Route exact path="/customer/checkout" component={ Checkout } />
           <Route exact path="/" render={ () => <Redirect to="/login" /> } />
-          <Route exact path="/" render={ () => <Redirect to="/customer/products" /> } />
         </Switch>
       </Provider>
     </div>

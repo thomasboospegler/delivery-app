@@ -5,27 +5,27 @@ export default function TableBody({ data, index, removeItem }) {
   return (
     <tr>
       <td
-        data-testId={ `customer_checkout__element-order-table-item-number-${index}` }
+        data-testid={ `customer_checkout__element-order-table-item-number-${index}` }
       >
         { index + 1 }
       </td>
       <td
-        data-testId={ `customer_checkout__element-order-table-name-${index}` }
+        data-testid={ `customer_checkout__element-order-table-name-${index}` }
       >
         { data.name }
       </td>
       <td
-        data-testId={ `customer_checkout__element-order-table-quantity-${index}` }
+        data-testid={ `customer_checkout__element-order-table-quantity-${index}` }
       >
         { data.quantity }
       </td>
       <td
-        data-testId={ `customer_checkout__element-order-table-unit-price-${index}` }
+        data-testid={ `customer_checkout__element-order-table-unit-price-${index}` }
       >
         { data.unitPrice.replace('.', ',') }
       </td>
       <td
-        data-testId={ `customer_checkout__element-order-table-sub-total-${index}` }
+        data-testid={ `customer_checkout__element-order-table-sub-total-${index}` }
       >
         { data.subTotal.replace('.', ',') }
       </td>
