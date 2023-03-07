@@ -67,7 +67,7 @@ export default function Register() {
         <input
           data-testid="common_register__input-email"
           type="text"
-          id="email"
+          id="emailRegister"
           name="email"
           value={ userRegister.email }
           onChange={ (e) => handleChage(e) }

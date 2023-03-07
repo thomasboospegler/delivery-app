@@ -1,13 +1,11 @@
 require('dotenv').config();
+const fs = require('fs');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 const userService = require('../service/user.service');
-const fs = require('fs');
 
 const jwtKey = fs.readFileSync('jwt.evaluation.key');
 
-
-// const secret = process.env.JWT_SECRET || 'secret_key'; // 
 const jwtConfig = { algorithm: 'HS256', expiresIn: '1d' };
 
 const login = async (req, res) => {
@@ -18,7 +16,7 @@ const login = async (req, res) => {
     return res.status(404).json({ message: 'Invalid fields' });
   }
   console.log(user);
-  const token = jwt.sign({ data: { email, name: user.name, role: user.role  } }, jwtKey, jwtConfig);
+  const token = jwt.sign({ data: { email, name: user.name, role: user.role } }, jwtKey, jwtConfig);
   return res.status(200).json({ token });
 };
 
