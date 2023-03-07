@@ -23,7 +23,7 @@ export default function Checkout() {
   const getTotal = () => {
     if (items) {
       const total = items.reduce((acc, curr) => acc + Number(curr.subTotal), 0);
-      return total.toFixed(2);
+      return total.toFixed(2).replace('.', ',');
     }
     return 0.00;
   };
@@ -45,12 +45,13 @@ export default function Checkout() {
     const sale = {
       userEmail: lsUserData.email,
       sellerName: customerAddress.seller,
-      totalPrice: Number(getTotal()),
+      totalPrice: Number(getTotal().replace(',', '.')),
       deliveryAddress: customerAddress.address,
       deliveryNumber: customerAddress.addressNumber,
       productsId: Object.values(cartItems).map((item) => item.id),
       quantity: Object.values(cartItems).map((item) => item.quantity),
     };
+    console.log(sale);
     const result = await createSale(sale);
     history.push(`/customer/orders/${result.data.insertedId}`);
   };
@@ -91,7 +92,7 @@ export default function Checkout() {
           ))}
         </tbody>
         <div data-testid="customer_checkout__element-order-total-price">
-          {`Total: R$: ${getTotal()}`}
+          { getTotal() }
         </div>
       </table>
       <fieldset>

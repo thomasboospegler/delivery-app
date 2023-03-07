@@ -6,8 +6,6 @@ import Products from './pages/Products';
 import './App.css';
 import Provider from './context/Provider';
 import Checkout from './pages/Checkout';
-import Products from './pages/Products';
-import Checkout from './pages/Checkout';
 
 function App() {
   return (

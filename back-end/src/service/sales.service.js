@@ -25,7 +25,6 @@ const createSale = async ({ userEmail, sellerName, totalPrice,
     .map(async (product, i) => SalesProducts
       .create({ saleId: sales.id, productId: product, quantity: quantity[i] }));
   if (!salesProducts) return null;
-  console.log(sales);
   return sales.dataValues.id;
 };
 

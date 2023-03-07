@@ -16,6 +16,7 @@ export const createSale = (payload) => axios
   )
   .then((data) => data)
   .catch((error) => {
+    console.log(error);
     switch (error.response.status) {
     case BAD_REQUEST:
       return 'Some fields are invalid';
