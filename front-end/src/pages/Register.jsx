@@ -27,7 +27,6 @@ export default function Register() {
 
   const submitClick = async () => {
     const registered = await registerNewUser(userRegister);
-    console.log(registered);
     if (registered === SUCCESS) {
       history.push('/customer/products');
     } else {
@@ -68,7 +67,7 @@ export default function Register() {
         <input
           data-testid="common_register__input-email"
           type="text"
-          id="email"
+          id="emailRegister"
           name="email"
           value={ userRegister.email }
           onChange={ (e) => handleChage(e) }
