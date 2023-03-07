@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react';
-import browserStorage from 'store';
+import { useState, useCallback } from 'react';
 
 export default (storageKey, initialState) => {
-  const [state, setInternalState] = useState(initialState);
+  const [state, setState] = useState(() => {
+    try {
+      const storedValue = localStorage.getItem(storageKey);
 
-  useEffect(() => {
-    const storageInBrowser = browserStorage.get(storageKey);
-
-    if (storageInBrowser) {
-      setInternalState(storageInBrowser);
+      return storedValue ? JSON.parse(storedValue) : initialState;
+    } catch {
+      return initialState;
     }
-  }, []);
+  });
 
-  const setState = (newState) => {
-    browserStorage.set(storageKey, newState);
-    setInternalState(newState);
-  };
+  const setValue = useCallback((value) => {
+    try {
+      setState(value);
+      localStorage.setItem(storageKey, JSON.stringify(value));
+    } catch (error) {
+      return error;
+    }
+  }, [storageKey]);
 
-  return [state, setState];
+  return [state, setValue];
 };

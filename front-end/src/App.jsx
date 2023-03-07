@@ -5,6 +5,8 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import './App.css';
 import Provider from './context/Provider';
+import Products from './pages/Products';
+import Checkout from './pages/Checkout';
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
           <Route exact path="/register" component={ Register } />
           <Route exact path="/login" component={ Login } />
           <Route exact path="/customer/products" component={ Products } />
+          <Route exact path="/customer/checkout" component={ Checkout } />
           <Route exact path="/" render={ () => <Redirect to="/login" /> } />
           <Route exact path="/" render={ () => <Redirect to="/customer/products" /> } />
         </Switch>

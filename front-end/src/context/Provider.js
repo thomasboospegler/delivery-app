@@ -10,19 +10,34 @@ export default function Provider({ children }) {
     password: '',
   });
 
-  const [lsUserData, setLsUserData] = usePersistState('userData', {
+  const [lsUserData, setLsUserData] = usePersistState('user', {
     name: '',
     email: '',
     role: '',
     token: '',
   });
 
+  const [cartItems, setCartItems] = usePersistState('cartItems', {});
+  const [totalCart, setTotalCart] = useState(0);
+
   const context = useMemo(() => ({
     userRegister,
     setUserRegister,
     lsUserData,
     setLsUserData,
-  }), [userRegister, lsUserData, setLsUserData]);
+    cartItems,
+    totalCart,
+    setCartItems,
+    setTotalCart,
+  }), [
+    userRegister,
+    lsUserData,
+    setLsUserData,
+    cartItems,
+    totalCart,
+    setCartItems,
+    setTotalCart,
+  ]);
   return (
     <Context.Provider value={ context }>
       { children }
