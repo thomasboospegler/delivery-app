@@ -39,10 +39,7 @@ export const login = async (user) => axios
       },
     },
   )
-  .then((data) => {
-    console.log(data);
-    return data;
-  })
+  .then((data) => data)
   .catch((error) => {
     switch (error.response.status) {
     case BAD_REQUEST:
