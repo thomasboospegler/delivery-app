@@ -1,6 +1,5 @@
-const { Sales }= require('../database/models');
+const { Sales } = require('../database/models');
 const { SalesProducts } = require('../database/models');
-const { Products } = require('../database/models');
 const { User } = require('../database/models');
 
 const getUserByEmail = async (email) => User.findOne({ where: { email } });

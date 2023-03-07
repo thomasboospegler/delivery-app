@@ -18,15 +18,15 @@ const createUser = async ({ name, email, password }) => {
 
 const getSellers = async () => {
   const seller = await User.findAll({
-    where: { role: 'seller'},
+    where: { role: 'seller' },
     attributes: ['name'],
   })
     .then((name) => name)
     .catch((error) => {
-      throw new Error(error)
+      throw new Error(error);
     });
   return seller;
-}
+};
 
 module.exports = {
   getUserByEmail,
