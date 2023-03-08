@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../api/user';
 import Context from '../context/Context';
@@ -57,6 +57,11 @@ export default function Login() {
     }
     setErrorMessage(true);
   };
+
+  useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user')) || '';
+    if (token) history.push('/customer/products');
+  }, [history]);
 
   return (
     <div>
