@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+import jwtToken from './mocks/JWT';
 
 jest.mock('axios');
 
@@ -96,13 +97,23 @@ describe('Test the Login page', () => {
     });
 
     it('with valid credentials', async () => {
-      axios.post.mockResolvedValueOnce({ status: SUCESS_STATUS });
+      axios.post.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: {
+          token: jwtToken,
+        },
+      });
       const email = screen.getByRole('textbox', { name: /login/i });
       const password = screen.getByLabelText(/senha/i);
       const login = screen.getByRole('button', { name: /login/i });
       userEvent.type(email, 'tests@email.com');
       userEvent.type(password, '123456789');
       userEvent.click(login);
+      jest.clearAllMocks();
+      axios.get.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: [],
+      });
       await waitFor(() => {
         const { location: { pathname } } = history;
         expect(pathname).toBe('/customer/products');

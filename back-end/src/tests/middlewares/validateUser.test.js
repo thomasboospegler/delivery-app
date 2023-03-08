@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const userService = require('../../service/user.service');
-const validateUser = require('../../middlewares/validateUser');
+const { validateUser } = require('../../middlewares/validateUser');
 
 describe('Test the validateUser middleware', function () {
   afterEach(function () {

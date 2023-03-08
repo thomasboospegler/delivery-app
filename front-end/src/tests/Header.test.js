@@ -24,7 +24,8 @@ describe('Test the Header component', () => {
 
   it('should render the name button', () => {
     renderWithRouter(<Header />);
-    const name = screen.getByRole('button', { name: /nome/i });
+
+    const name = screen.getByTestId('customer_products__element-navbar-user-full-name');
 
     expect(name).toBeInTheDocument();
     userEvent.click(name);
