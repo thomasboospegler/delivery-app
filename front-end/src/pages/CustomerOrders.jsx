@@ -12,7 +12,6 @@ export default function CustomerOrders() {
     const fetchOrders = async () => {
       const data = await getCustomerOrders(lsUserData.email, lsUserData.token);
       setOrders(data);
-      console.log(data);
     };
     fetchOrders();
   }, [lsUserData]);
