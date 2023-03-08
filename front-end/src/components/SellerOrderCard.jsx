@@ -17,7 +17,9 @@ export default function SellerOrderCard({ order, index }) {
         {`Pedido ${id + 1}`}
       </p>
       <p data-testid={ `seller_orders__element-delivery-status-${id}` }>{ status }</p>
-      <p data-testid={ `seller_orders__element-order-date-${id}` }>{ date }</p>
+      <p data-testid={ `seller_orders__element-order-date-${id}` }>
+        { new Intl.DateTimeFormat('pt-BR').format(new Date(date)) }
+      </p>
       <p data-testid={ `seller_orders__element-card-price-${id}` }>
         { subTotal.replace('.', ',') }
       </p>
