@@ -7,9 +7,7 @@ const getUserByEmail = async (email) => {
   return result;
 };
 
-const getUserByName = async (name) => {
-  return User.findOne({ where: { name } });
-};
+const getUserByName = async (name) => User.findOne({ where: { name } });
 
 const createSale = async ({ userEmail, sellerName, totalPrice,
   deliveryAddress, deliveryNumber, productsId, quantity,
