@@ -58,7 +58,7 @@ describe('Test the Login page', () => {
       const register = screen.getByRole('button', { name: /cadastrar/i });
 
       userEvent.type(name, 'Teste Teste');
-      userEvent.type(email, 'test@email.com');
+      userEvent.type(email, 'test@test.com');
       userEvent.type(password, '12345');
 
       expect(register).toBeDisabled();
@@ -70,8 +70,8 @@ describe('Test the Login page', () => {
       const password = screen.getByLabelText(/senha/i);
       const register = screen.getByRole('button', { name: /cadastrar/i });
 
-      userEvent.type(name, 'Teste Teste Teste');
-      userEvent.type(email, 'test@email.com');
+      userEvent.type(name, 'Teste Teste Teste Teste');
+      userEvent.type(email, 'test@test.com');
       userEvent.type(password, '12345678');
 
       expect(register).not.toBeDisabled();
@@ -105,6 +105,11 @@ describe('Test the Login page', () => {
       userEvent.type(email, 'test@email.com');
       userEvent.type(password, '12345678');
       userEvent.click(register);
+      jest.clearAllMocks();
+      axios.get.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: [],
+      });
       await waitFor(() => {
         const { location: { pathname } } = history;
         expect(pathname).toBe('/customer/products');
