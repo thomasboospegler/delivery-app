@@ -2,14 +2,14 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
 
-export default function OrderCard({ order, i }) {
+export default function CustomerOrderCard({ order, i }) {
   const history = useHistory();
-  const { subTotal } = order;
+  const { subTotal, id } = order;
   return (
     <button
       key={ `order-${i}` }
       type="button"
-      onClick={ () => history.push(`/customer/orders/${i}`) }
+      onClick={ () => history.push(`/customer/orders/${id}`) }
     >
       <p data-testid={ `customer_orders__element-order-id-${i}` }>{`Pedido ${i + 1}`}</p>
       <p data-testid={ `customer_orders__element-delivery-status${i}` }>Pendente</p>
@@ -19,9 +19,10 @@ export default function OrderCard({ order, i }) {
   );
 }
 
-OrderCard.propTypes = {
+CustomerOrderCard.propTypes = {
   order: PropTypes.shape({
     subTotal: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
   i: PropTypes.number.isRequired,
 };
