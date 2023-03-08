@@ -11,7 +11,7 @@ const getOrders = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: error });
   }
-}
+};
 
 module.exports = {
   getOrders,

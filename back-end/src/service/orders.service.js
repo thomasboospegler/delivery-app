@@ -8,9 +8,9 @@ const getUserByEmail = async (email) => {
 
 const getOrders = async (user) => {
   const userId = await getUserByEmail(user);
-  const orders = await Sales.findAll({ where: { userId: userId } });
+  const orders = await Sales.findAll({ where: { userId } });
   return orders;
-}
+};
 
 module.exports = {
   getOrders,
