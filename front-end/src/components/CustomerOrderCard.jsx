@@ -23,9 +23,9 @@ export default function CustomerOrderCard({ order, i }) {
 
 CustomerOrderCard.propTypes = {
   order: PropTypes.shape({
-    subTotal: PropTypes.string,
-    id: PropTypes.number,
     totalPrice: PropTypes.string,
+    id: PropTypes.number,
+    saleDate: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
   i: PropTypes.number.isRequired,
