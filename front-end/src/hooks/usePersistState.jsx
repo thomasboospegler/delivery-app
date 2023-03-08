@@ -14,13 +14,7 @@ export default (storageKey, initialState) => {
   const setValue = useCallback((value) => {
     try {
       setState(value);
-      // const storedValue = localStorage.getItem(storageKey);
-
-      // if (storedValue) {
-      //   localStorage.setItem(storageKey, JSON.stringify([...storedValue, value]));
-      // } else {
       localStorage.setItem(storageKey, JSON.stringify(value));
-      // }
     } catch (error) {
       return error;
     }

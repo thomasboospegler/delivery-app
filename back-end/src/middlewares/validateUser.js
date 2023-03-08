@@ -1,9 +1,9 @@
-const { loginSchema } = require('./schemas');
-const userService = require('../service/user.service');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const userService = require('../service/user.service');
+const { loginSchema } = require('./schemas');
 
 const jwtKey = fs.readFileSync('jwt.evaluation.key');
-
 
 const validateUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -17,7 +17,6 @@ const validateUser = async (req, res, next) => {
   next();
 };
 
-
 const validateToken = async (req, res, next) => {
   const { authorization: token } = req.headers;
   if (!token) {
@@ -29,6 +28,6 @@ const validateToken = async (req, res, next) => {
   } catch (err) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
-}
+};
 
 module.exports = { validateUser, validateToken };

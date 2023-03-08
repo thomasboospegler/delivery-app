@@ -1,13 +1,11 @@
 require('dotenv').config();
+const fs = require('fs');
 const md5 = require('md5');
 const jwt = require('jsonwebtoken');
 const userService = require('../service/user.service');
-const fs = require('fs');
 
 const jwtKey = fs.readFileSync('jwt.evaluation.key');
 
-
-// const secret = process.env.JWT_SECRET || 'secret_key'; // 
 const jwtConfig = { algorithm: 'HS256', expiresIn: '1d' };
 
 const login = async (req, res) => {
@@ -17,8 +15,7 @@ const login = async (req, res) => {
   if (!user || encryptPassword !== user.password) {
     return res.status(404).json({ message: 'Invalid fields' });
   }
-  console.log(user);
-  const token = jwt.sign({ data: { email, name: user.name, role: user.role  } }, jwtKey, jwtConfig);
+  const token = jwt.sign({ data: { email, name: user.name, role: user.role } }, jwtKey, jwtConfig);
   return res.status(200).json({ token });
 };
 
@@ -29,7 +26,17 @@ const createUser = async (req, res) => {
   return res.status(201).json(newUser);
 };
 
+const getSellers = async (_req, res) => {
+  try {
+    const seller = await userService.getSellers();
+    return res.status(200).json(seller);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   login,
   createUser,
+  getSellers,
 };
