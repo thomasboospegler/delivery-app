@@ -13,10 +13,10 @@ export default function CustomerOrderCard({ order, i }) {
       data-testid={ `customer_orders__element-order-id-${id}` }
       onClick={ () => history.push(`/customer/orders/${id}`) }
     >
-      <p data-testid={ `customer_orders__element-order-id-${i}` }>{`Pedido ${i + 1}`}</p>
-      <p data-testid={ `customer_orders__element-delivery-status-${i}` }>{status}</p>
-      <p data-testid={ `customer_orders__element-order-date-${i}` }>{date}</p>
-      <p data-testid={ `customer_orders__element-card-price-${i}` }>{subTotal}</p>
+      <p data-testid={ `customer_orders__element-order-id-${id}` }>{`Pedido ${i + 1}`}</p>
+      <p data-testid={ `customer_orders__element-delivery-status-${id}` }>{status}</p>
+      <p data-testid={ `customer_orders__element-order-date-${id}` }>{date}</p>
+      <p data-testid={ `customer_orders__element-card-price-${id}` }>{subTotal}</p>
     </button>
   );
 }
