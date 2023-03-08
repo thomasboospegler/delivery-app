@@ -15,7 +15,6 @@ const login = async (req, res) => {
   if (!user || encryptPassword !== user.password) {
     return res.status(404).json({ message: 'Invalid fields' });
   }
-  console.log(user);
   const token = jwt.sign({ data: { email, name: user.name, role: user.role } }, jwtKey, jwtConfig);
   return res.status(200).json({ token });
 };
@@ -27,7 +26,17 @@ const createUser = async (req, res) => {
   return res.status(201).json(newUser);
 };
 
+const getSellers = async (_req, res) => {
+  try {
+    const seller = await userService.getSellers();
+    return res.status(200).json(seller);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 module.exports = {
   login,
   createUser,
+  getSellers,
 };

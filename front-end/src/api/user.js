@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const BAD_REQUEST = 400;
 const USER_ALREADY_REGISTERED = 409;
+const CONTEXT_TYPE = 'application/json';
 
 export const registerNewUser = async (user) => axios
   .post(
@@ -11,7 +12,7 @@ export const registerNewUser = async (user) => axios
     },
     {
       headers: {
-        'content-type': 'application/json',
+        'content-type': CONTEXT_TYPE,
       },
     },
   )
@@ -35,7 +36,7 @@ export const login = async (user) => axios
     },
     {
       headers: {
-        'content-type': 'application/json',
+        'content-type': CONTEXT_TYPE,
       },
     },
   )
@@ -48,3 +49,14 @@ export const login = async (user) => axios
       return 'internal server error';
     }
   });
+
+export const getSellers = () => axios.get(
+  'http://localhost:3001/seller',
+  {
+    headers: {
+      'content-type': CONTEXT_TYPE,
+    },
+  },
+)
+  .then((data) => data)
+  .catch((error) => error);

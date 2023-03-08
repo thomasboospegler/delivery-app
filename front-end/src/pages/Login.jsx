@@ -50,7 +50,6 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const result = await login({ email, password });
-    console.log(result);
     if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
       saveOnLocalStorage(result.data.token);
