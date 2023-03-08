@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function CustomerOrderCard({ order, i }) {
   const history = useHistory();
-  const { subTotal, id, saleDate, status } = order;
+  const { totalPrice, id, saleDate, status } = order;
   const date = new Intl.DateTimeFormat('pt-BR').format(new Date(saleDate));
   return (
     <button
@@ -16,7 +16,7 @@ export default function CustomerOrderCard({ order, i }) {
       <p data-testid={ `customer_orders__element-order-id-${id}` }>{`Pedido ${id}`}</p>
       <p data-testid={ `customer_orders__element-delivery-status-${id}` }>{status}</p>
       <p data-testid={ `customer_orders__element-order-date-${id}` }>{date}</p>
-      <p data-testid={ `customer_orders__element-card-price-${id}` }>{subTotal}</p>
+      <p data-testid={ `customer_orders__element-card-price-${id}` }>{totalPrice}</p>
     </button>
   );
 }
@@ -25,7 +25,7 @@ CustomerOrderCard.propTypes = {
   order: PropTypes.shape({
     subTotal: PropTypes.string,
     id: PropTypes.number,
-    saleDate: PropTypes.string,
+    totalPrice: PropTypes.string,
     status: PropTypes.string,
   }).isRequired,
   i: PropTypes.number.isRequired,
