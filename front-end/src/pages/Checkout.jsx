@@ -40,9 +40,6 @@ export default function Checkout() {
   };
 
   const handleChange = ({ target: { name, value } }) => {
-    // if (name === 'seller') {
-    //   return setSellerDefault({ [name]: value });
-    // }
     setCustomerAddress((prev) => ({
       ...prev,
       [name]: value,
@@ -50,7 +47,6 @@ export default function Checkout() {
   };
 
   const concludeSale = async () => {
-    console.log(sellerDefault);
     const sale = {
       userEmail: lsUserData.email,
       sellerName: sellerDefault,

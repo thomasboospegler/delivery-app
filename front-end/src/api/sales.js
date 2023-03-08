@@ -2,9 +2,8 @@ import axios from 'axios';
 
 export const BAD_REQUEST = 400;
 
-export const createSale = (payload, jwt) => {
-  console.log(payload);
-  return axios.post(
+export const createSale = (payload, jwt) => axios
+  .post(
     'http://localhost:3001/sales/create',
     {
       ...payload,
@@ -16,14 +15,12 @@ export const createSale = (payload, jwt) => {
       },
     },
   )
-    .then((data) => data)
-    .catch((error) => {
-      console.log(error);
-      switch (error.response.status) {
-      case BAD_REQUEST:
-        return 'Some fields are invalid';
-      default:
-        return 'internal server error';
-      }
-    });
-};
+  .then((data) => data)
+  .catch((error) => {
+    switch (error.response.status) {
+    case BAD_REQUEST:
+      return 'Some fields are invalid';
+    default:
+      return 'internal server error';
+    }
+  });
