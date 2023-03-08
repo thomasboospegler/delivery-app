@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function CustomerOrderCard({ order, i }) {
   const history = useHistory();
   const { subTotal, id, saleDate, status } = order;
-  const date = saleDate.split('T')[0];
+  const date = new Intl.DateTimeFormat('pt-BR').format(new Date(saleDate));
   return (
     <button
       key={ `order-${i}` }
