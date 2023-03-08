@@ -9,6 +9,7 @@ export default function CustomerOrderCard({ order, i }) {
     <button
       key={ `order-${i}` }
       type="button"
+      data-testid={ `customer_orders__element-order-id-${id}` }
       onClick={ () => history.push(`/customer/orders/${id}`) }
     >
       <p data-testid={ `customer_orders__element-order-id-${i}` }>{`Pedido ${i + 1}`}</p>
