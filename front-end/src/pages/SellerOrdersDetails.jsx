@@ -3,29 +3,58 @@ import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import SellerTableBody from '../components/SellerTableBody';
 import Context from '../context/Context';
-import { getOrderById } from '../api/orders';
+import { getOrderById, updateStatus } from '../api/orders';
 
 export default function SellerOrdersDetails() {
   const { lsUserData } = useContext(Context);
   const [orderDetails, setOrderDetails] = useState();
-  const [status, setStatus] = useState('');
-  const [isDisabledPreparing, setIsDisabledPreaparing] = useState(false);
+  // const [status, setStatus] = useState('Pendente');
+  const [isDisabledPreparing, setIsDisabledPreaparing] = useState(true);
   const [isDisabledDispatch, setIsDisabledDispatch] = useState(true);
   const location = useLocation();
   const DELIVERYSID = 'seller_order_details__element-order-details-label-delivery-status';
+  const UPDATED = 204;
+  const SLICE = -1;
+
+  const handleStatus = async (newStatus) => {
+    const result = await updateStatus(
+      lsUserData.token,
+      ...location.pathname.substring(location.pathname).split('/').slice(SLICE),
+      newStatus,
+    );
+
+    if (result.status === UPDATED) {
+      setOrderDetails((prev) => ({
+        ...prev,
+        status: newStatus,
+      }));
+    }
+  };
+
+  useEffect(() => {
+    if (orderDetails?.status === 'Pendente') {
+      setIsDisabledPreaparing(false);
+    } else {
+      setIsDisabledPreaparing(true);
+    }
+    if (orderDetails?.status === 'Preparando') {
+      setIsDisabledDispatch(false);
+    } else {
+      setIsDisabledDispatch(true);
+    }
+  }, [orderDetails?.status]);
 
   useEffect(() => {
     const getOrders = async () => {
       const result = await getOrderById(
         lsUserData.token,
-        location.pathname.substring(location.pathname.length - 1),
+        ...location.pathname.substring(location.pathname).split('/').slice(SLICE),
       );
       setOrderDetails(...result);
+      // setStatus(orderDetails.status);
     };
     getOrders();
   }, []);
-  console.log(orderDetails);
-
   return (
     <div>
       <Header />
@@ -37,10 +66,7 @@ export default function SellerOrdersDetails() {
               type="button"
               data-testid="seller_order_details__element-order-details-label-order-id"
             >
-              PEDIDO
-              {' '}
-              { '  ' }
-              {location.pathname.substring(location.pathname.length - 1)}
+              { orderDetails?.id }
             </button>
           </div>
           <div>
@@ -62,10 +88,11 @@ export default function SellerOrdersDetails() {
             <button
               type="button"
               data-testid="seller_order_details__button-preparing-check"
-              value={ status }
+              value={ orderDetails.status }
               disabled={ isDisabledPreparing }
+              onClick={ () => handleStatus('Preparando') }
             >
-              { status }
+              { orderDetails.status }
             </button>
           </div>
           <div>
@@ -73,8 +100,9 @@ export default function SellerOrdersDetails() {
               type="button"
               data-testid="seller_order_details__button-dispatch-check"
               disabled={ isDisabledDispatch }
+              onClick={ () => handleStatus('Em Trânsito') }
             >
-              Saiu Para Entrega;
+              Saiu Para Entrega
             </button>
           </div>
         </div>)}
@@ -89,16 +117,13 @@ export default function SellerOrdersDetails() {
           </tr>
         </thead>
         <tbody>
-          { orderDetails && orderDetails.products?.map((data, i) => {
-            console.log(data);
-            return (
-              <SellerTableBody
-                data={ data }
-                index={ i }
-                key={ `${data.name}-${i}` }
-              />
-            );
-          })}
+          { orderDetails && orderDetails.products?.map((data, i) => (
+            <SellerTableBody
+              data={ data }
+              index={ i }
+              key={ `${data.name}-${i}` }
+            />
+          ))}
         </tbody>
         {orderDetails && (
           <div data-testid="seller_order_details__element-order-total-price">

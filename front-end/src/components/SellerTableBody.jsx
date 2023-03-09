@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function SellerTableBody({ data, index }) {
-  console.log(data);
   return (
     <tr>
       <td
