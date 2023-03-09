@@ -53,21 +53,18 @@ export default function Login() {
     if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
       saveOnLocalStorage(result.data.token);
+    } else {
+      setErrorMessage(true);
     }
     const decoded = parseJwt(result.data.token);
-
-    if (decoded.data.role === 'seller') return history.push('/seller/orders');
-    if (decoded.data.role === 'customer') return history.push('/customer/products');
-    setErrorMessage(true);
+    console.log(decoded);
+    if (decoded.data.role === 'seller') history.push('/seller/orders');
+    if (decoded.data.role === 'customer') history.push('/customer/products');
   };
 
   useEffect(() => {
     const { token } = JSON.parse(localStorage.getItem('user')) || '';
-    const decoded = parseJwt(token);
-    if (token) {
-      if (decoded.data.role === 'seller') return history.push('/seller/orders');
-      if (decoded.data.role === 'customer') return history.push('/customer/products');
-    }
+    if (token) history.push('/customer/products');
   }, [history]);
 
   return (
