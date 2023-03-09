@@ -84,7 +84,7 @@ describe('Tet the TableBody component', () => {
     expect(itemSubtotal).toBeInTheDocument();
     expect(buttomRemove).toBeInTheDocument();
   });
-  it('should exists with all elements', async () => {
+  it('should remove an item after clicking in "Remover"', async () => {
     await waitFor(() => {
       const { location: { pathname } } = history;
       expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
@@ -109,12 +109,12 @@ describe('Tet the TableBody component', () => {
       expect(pathname).toBe('/customer/checkout');
     });
     const itemName = screen
-      .getAllByLabelText('tr');
-    console.log(itemName);
+      .getByTestId('customer_checkout__element-order-table-item-number-1');
+    // console.log(itemName);
     // preciso retornar todos da tabela
     const buttomRemove = screen
-      .getByTestId('customer_checkout__element-order-table-remove-0');
+      .getByTestId('customer_checkout__element-order-table-remove-1');
     userEvent.click(buttomRemove);
-    expect(itemName).toHaveLength(1);
+    expect(itemName).not.toBeInTheDocument();
   });
 });
