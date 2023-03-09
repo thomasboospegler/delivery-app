@@ -44,7 +44,7 @@ export const getCustomerOrders = async (user, token) => axios
     {},
     {
       headers: {
-        'content-type': 'application/json',
+        'content-type': CONTEXT_TYPE,
         authorization: token,
       },
     },
@@ -65,7 +65,7 @@ export const getCustomerOrderById = (token, id) => axios
     {},
     {
       headers: {
-        'content-type': 'application/json',
+        'content-type': CONTEXT_TYPE,
         authorization: token,
       },
     },

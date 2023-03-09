@@ -9,6 +9,6 @@ router.get('/seller', validateToken, ordersController.getSellerOrders);
 router.get('/seller/sales/:id', validateToken, ordersController.getOrdersById);
 router.put('/status/:id', validateToken, ordersController.updateOrderStatus);
 
-router.get('/:id', OrdersController.getCustomerOrderById);
+router.get('/:id', ordersController.getCustomerOrderById);
 
 module.exports = router;
