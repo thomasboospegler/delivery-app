@@ -55,7 +55,7 @@ export default function Login() {
       saveOnLocalStorage(result.data.token);
     }
     const decoded = parseJwt(result.data.token);
-    console.log(decoded);
+
     if (decoded.data.role === 'seller') return history.push('/seller/orders');
     if (decoded.data.role === 'customer') return history.push('/customer/products');
     setErrorMessage(true);

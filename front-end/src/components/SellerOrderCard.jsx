@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 export default function SellerOrderCard({ order, index }) {
   const history = useHistory();
   const { subTotal, id, date, status, address } = order;
-  console.log(order);
   return (
     <button
       key={ `order-${index}` }
