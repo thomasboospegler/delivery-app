@@ -63,7 +63,11 @@ export default function Login() {
 
   useEffect(() => {
     const { token } = JSON.parse(localStorage.getItem('user')) || '';
-    if (token) history.push('/customer/products');
+    const decoded = parseJwt(token);
+    if (token) {
+      if (decoded.data.role === 'seller') return history.push('/seller/orders');
+      if (decoded.data.role === 'customer') return history.push('/customer/products');
+    }
   }, [history]);
 
   return (

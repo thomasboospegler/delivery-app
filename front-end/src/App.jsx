@@ -21,7 +21,7 @@ function App() {
           <Route exact path="/customer/products" component={ Products } />
           <Route exact path="/customer/checkout" component={ Checkout } />
           <Route exact path="/seller/orders" component={ SellerOrders } />
-          <Route exact path="/customer/orders/:id" component={ CustomerOrders } />
+          <Route exact path="/customer/orders" component={ CustomerOrders } />
           <Route exact path="/seller/orders/:id" component={ SellerOrdersDetails } />
           <Route exact path="/" render={ () => <Redirect to="/login" /> } />
         </Switch>
