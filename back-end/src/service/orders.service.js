@@ -2,15 +2,13 @@ const { Sales } = require('../database/models');
 const { User } = require('../database/models');
 const { Products } = require('../database/models');
 
-const getSellerByEmail = async (email) => User.findOne({ where: { email } });
-
 const getUserByEmail = async (email) => { 
   const result = await User.findOne({ where: { email } });
   return result.id;
 };
 
 const getSellerOrders = async (user) => {
-  const sellerId = await getSellerByEmail(user);
+  const sellerId = await getUserByEmail(user);
   if (!sellerId) return null;
   const orders = await Sales.findAll({ where: { sellerId } });
   return orders;

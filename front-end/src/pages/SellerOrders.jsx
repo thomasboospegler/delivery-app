@@ -10,6 +10,7 @@ export default function SellerOrders() {
   useEffect(() => {
     const getOrders = async () => {
       const result = await getSallesBySeller(lsUserData.token);
+      console.log(result);
       setOrders(result.data);
     };
     getOrders();
