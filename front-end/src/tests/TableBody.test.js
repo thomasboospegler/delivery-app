@@ -7,7 +7,6 @@ import App from '../App';
 import jwtToken from './mocks/JWT';
 import allProductsMock from './mocks/allProductsMock';
 import sellerMock from './mocks/mockSeller';
-// import TableBody from '../components/TableBody';
 
 jest.mock('axios');
 
@@ -110,8 +109,6 @@ describe('Tet the TableBody component', () => {
     });
     const itemName = screen
       .getByTestId('customer_checkout__element-order-table-item-number-1');
-    // console.log(itemName);
-    // preciso retornar todos da tabela
     const buttomRemove = screen
       .getByTestId('customer_checkout__element-order-table-remove-1');
     userEvent.click(buttomRemove);
