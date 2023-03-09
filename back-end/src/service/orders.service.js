@@ -2,7 +2,7 @@ const { Sales } = require('../database/models');
 const { User } = require('../database/models');
 const { Products } = require('../database/models');
 
-const getSellerByEmail = async (email) => User.findOne({ where: { email } })
+const getSellerByEmail = async (email) => User.findOne({ where: { email } });
 
 const getUserByEmail = async (email) => { 
   const result = await User.findOne({ where: { email } });
@@ -47,5 +47,5 @@ module.exports = {
   getSellerOrders,
   getOrderById,
   updateOrderStatus,
-  getOrders
+  getOrders,
 };
