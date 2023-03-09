@@ -37,6 +37,23 @@ const getOrders = async (user) => {
   return orders;
 };
 
+const getCustomerOrderById = async (id) => {
+  const order = await Sales.findOne(
+    { 
+      where: { id }, 
+      include: [
+      {
+        model: Products,
+        as: 'products',
+        attributes: ['id', 'name', 'price'],
+        through: { attributes: ['quantity'] },
+      },
+      ],
+    },
+  );
+  return order;
+};
+
 const updateOrderStatus = async (id, status) => {
   await Sales.update({ status }, { where: { id } });
 };
@@ -46,4 +63,5 @@ module.exports = {
   getOrderById,
   updateOrderStatus,
   getOrders,
+  getCustomerOrderById,
 };

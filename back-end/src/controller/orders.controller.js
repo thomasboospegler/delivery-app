@@ -53,9 +53,20 @@ const getSellerOrders = async (req, res) => {
     }
   };
 
+const getCustomerOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await OrdersService.getCustomerOrderById(id);
+    return res.status(200).json(order);
+  } catch (error) {
+    return res.status(500).json({ message: error });
+  }
+};
+
 module.exports = {
   getSellerOrders,
   getOrdersById,
   updateOrderStatus,
   getOrders,
+  getCustomerOrderById,
 };
