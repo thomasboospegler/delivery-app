@@ -2,7 +2,9 @@ const { Sales } = require('../database/models');
 const { User } = require('../database/models');
 const { Products } = require('../database/models');
 
-const getSellerByEmail = async (email) => {
+const getSellerByEmail = async (email) => User.findOne({ where: { email } })
+
+const getUserByEmail = async (email) => { 
   const result = await User.findOne({ where: { email } });
   return result.id;
 };
@@ -31,8 +33,19 @@ const getOrderById = async (id) => {
   return orders;
 };
 
+const getOrders = async (user) => {
+  const userId = await getUserByEmail(user);
+  const orders = await Sales.findAll({ where: { userId } });
+  return orders;
+};
+
 const updateOrderStatus = async (id, status) => {
   await Sales.update({ status }, { where: { id } });
 };
 
-module.exports = { getSellerOrders, getOrderById, updateOrderStatus };
+module.exports = { 
+  getSellerOrders,
+  getOrderById,
+  updateOrderStatus,
+  getOrders
+};
