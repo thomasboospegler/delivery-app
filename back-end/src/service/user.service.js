@@ -28,8 +28,14 @@ const getSellers = async () => {
   return seller;
 };
 
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id } });
+  return user;
+};
+
 module.exports = {
   getUserByEmail,
   createUser,
   getSellers,
+  getUserById,
 };

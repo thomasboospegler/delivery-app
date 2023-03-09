@@ -22,3 +22,16 @@ export const getCustomerOrders = async (user, token) => axios
       return 'internal server error';
     }
   });
+
+export const getCustomerOrderById = (token, id) => axios
+  .get(
+    `http://localhost:3001/orders/${id}`,
+    {},
+    {
+      headers: {
+        'content-type': 'application/json',
+        authorization: token,
+      },
+    },
+  ).then((data) => data.data)
+  .catch((error) => error);
