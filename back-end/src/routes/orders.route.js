@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get('/', OrdersController.getOrders);
 
+router.get('/:id', OrdersController.getCustomerOrderById);
+
 module.exports = router;
