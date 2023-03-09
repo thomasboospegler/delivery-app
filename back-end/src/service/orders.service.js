@@ -23,9 +23,11 @@ const getCustomerOrderById = async (id) => {
         model: Products,
         as: 'products',
         attributes: ['id', 'name', 'price'],
-        through: { attributes: ['quantity'] }
+        through: { attributes: ['quantity'] },
       },
-    ]});
+      ],
+    },
+  );
   return order;
 };
 
