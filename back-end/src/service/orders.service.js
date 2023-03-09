@@ -17,10 +17,17 @@ const getSellerOrders = async (user) => {
 }
 
 const getOrderById = async (id) => {
-  const orders = await Sales.findAll({ where: { id }, include: [
-    {model: Products, as: 'products', attributes: ['id', 'name', 'price'], through: { attributes: ['quantity']} },
-  ]});
-    console.log(orders);
+  const orders = await Sales.findOne(
+    { 
+      where: { id }, 
+      include: [
+      {
+        model: Products,
+        as: 'products',
+        attributes: ['id', 'name', 'price'],
+        through: { attributes: ['quantity'] }
+      },
+    ]});
   return orders;
 }
 

@@ -8,6 +8,9 @@ import { getOrderById } from '../api/orders';
 export default function SellerOrdersDetails() {
   const { lsUserData } = useContext(Context);
   const [orderDetails, setOrderDetails] = useState();
+  const [status, setStatus] = useState('');
+  const [isDisabledPreparing, setIsDisabledPreaparing] = useState(false);
+  const [isDisabledDispatch, setIsDisabledDispatch] = useState(true);
   const location = useLocation();
   const DELIVERYSID = 'seller_order_details__element-order-details-label-delivery-status';
 
@@ -21,6 +24,7 @@ export default function SellerOrdersDetails() {
     };
     getOrders();
   }, []);
+  console.log(orderDetails);
 
   return (
     <div>
@@ -31,7 +35,7 @@ export default function SellerOrdersDetails() {
           <div>
             <button
               type="button"
-              data-testid="eller_order_details__element-order-details-label-order-id"
+              data-testid="seller_order_details__element-order-details-label-order-id"
             >
               PEDIDO
               {' '}
@@ -43,7 +47,8 @@ export default function SellerOrdersDetails() {
             <div
               data-testid="seller_order_details__element-order-details-label-order-date"
             >
-              { new Intl.DateTimeFormat('pt-BR').format(new Date(orderDetails.saleDate)) }
+              { new Intl
+                .DateTimeFormat('pt-BR').format(new Date(orderDetails.saleDate)) }
             </div>
           </div>
           <div>
@@ -56,15 +61,18 @@ export default function SellerOrdersDetails() {
           <div>
             <button
               type="button"
-              data-testid="sseller_order_details__button-preparing-check"
+              data-testid="seller_order_details__button-preparing-check"
+              value={ status }
+              disabled={ isDisabledPreparing }
             >
-              Preparando Pedido
+              { status }
             </button>
           </div>
           <div>
             <button
               type="button"
               data-testid="seller_order_details__button-dispatch-check"
+              disabled={ isDisabledDispatch }
             >
               Saiu Para Entrega;
             </button>
