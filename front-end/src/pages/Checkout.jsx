@@ -59,6 +59,7 @@ export default function Checkout() {
 
     const result = await createSale(sale, lsUserData.token);
     history.push(`/customer/orders/${result.data.insertedId}`);
+    localStorage.removeItem('cartItems');
   };
 
   useEffect(() => {

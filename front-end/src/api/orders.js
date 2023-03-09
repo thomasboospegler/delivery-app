@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const CONTEXT_TYPE = 'application/json';
+export const NOT_FOUND = 404;
 
 export const getSallesBySeller = (token) => axios.get(
   'http://localhost:3001/orders/seller',
@@ -36,3 +37,24 @@ export const updateStatus = (token, id, status) => axios.put(
     },
   },
 );
+
+export const getCustomerOrders = async (user, token) => axios
+  .get(
+    `http://localhost:3001/orders?user=${user}`,
+    {},
+    {
+      headers: {
+        'content-type': 'application/json',
+        authorization: token,
+      },
+    },
+  )
+  .then((data) => data.data)
+  .catch((error) => {
+    switch (error.response.status) {
+    case NOT_FOUND:
+      return 'Orders Not Found';
+    default:
+      return 'internal server error';
+    }
+  });

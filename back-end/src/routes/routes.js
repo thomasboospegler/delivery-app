@@ -8,8 +8,8 @@ const productsRouter = require('./products.route');
 const sellerRouter = require('./sellers.route');
 const ordersRouter = require('./orders.route');
 
-router.use('/register', registerRouter);
 router.use('/login', loginRouter);
+router.use('/register', registerRouter);
 router.use('/sales', salesRouter);
 router.use('/products', productsRouter);
 router.use('/seller', sellerRouter);
