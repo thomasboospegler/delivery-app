@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { login } from '../api/user';
 import Context from '../context/Context';
@@ -53,10 +53,19 @@ export default function Login() {
     if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
       saveOnLocalStorage(result.data.token);
-      return history.push('/customer/products');
+    } else {
+      setErrorMessage(true);
     }
-    setErrorMessage(true);
+    const decoded = parseJwt(result.data.token);
+    console.log(decoded);
+    if (decoded.data.role === 'seller') history.push('/seller/orders');
+    if (decoded.data.role === 'customer') history.push('/customer/products');
   };
+
+  useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem('user')) || '';
+    if (token) history.push('/customer/products');
+  }, [history]);
 
   return (
     <div>

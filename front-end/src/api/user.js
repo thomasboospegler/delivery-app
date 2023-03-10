@@ -60,3 +60,14 @@ export const getSellers = () => axios.get(
 )
   .then((data) => data)
   .catch((error) => error);
+
+export const getUserById = (id) => axios.get(
+  `http://localhost:3001/user/${id}`,
+  {
+    headers: {
+      'content-type': CONTEXT_TYPE,
+    },
+  },
+)
+  .then((data) => data.data)
+  .catch((error) => error);
