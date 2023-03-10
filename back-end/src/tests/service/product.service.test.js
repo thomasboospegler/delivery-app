@@ -6,7 +6,7 @@ const { Products } = require('../../database/models');
 
 const productService = require('../../service/products.service');
 
-describe('Test the product controller', () => {
+describe('Test the product service', () => {
     afterEach(function () {
       sinon.restore();
     });

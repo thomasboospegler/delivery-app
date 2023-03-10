@@ -14,8 +14,6 @@ const sellerMock = [
   }
 ]
 
-// const RESULT_ERROR = 'Invalid Key';
-
 describe('Test the user service', function () {
   describe('Test getUserByEmail function', function () {
     afterEach(function () {
