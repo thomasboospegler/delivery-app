@@ -13,7 +13,7 @@ export default function SellerOrders() {
       setOrders(result.data);
     };
     getOrders();
-  }, []);
+  }, [lsUserData.token, setOrders]);
 
   return (
     <div className="main-seller-order-container">
