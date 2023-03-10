@@ -32,22 +32,26 @@ export default function Products() {
   return (
     <section>
       <Header />
-      <div>
+      <div className="p-8 flex flex-wrap justify-center m-auto gap-10 lg:pl-12 lg:pr-12">
         {productsData && productsData.map((product, i) => (
           <ProductCard key={ `${product.id}-${i}` } product={ { ...product } } />
         ))}
-        <button
-          type="button"
-          name="totalButton"
-          data-testid="customer_products__button-cart"
-          disabled={ isDisabled }
-          onClick={ () => history.push('/customer/checkout') }
-        >
-          <p data-testid="customer_products__checkout-bottom-value">
-            {totalCart.toFixed(2).replace('.', ',')}
-          </p>
-        </button>
       </div>
+      <button
+        type="button"
+        name="totalButton"
+        className="fixed bottom-4 right-6 p-2 pl-4 pr-4 bg-primary text-white
+          text-xl font-semibold rounded-lg"
+        data-testid="customer_products__button-cart"
+        disabled={ isDisabled }
+        onClick={ () => history.push('/customer/checkout') }
+      >
+        Ver Carrinho: R$
+        {' '}
+        <span data-testid="customer_products__checkout-bottom-value">
+          {totalCart.toFixed(2).replace('.', ',')}
+        </span>
+      </button>
     </section>
   );
 }

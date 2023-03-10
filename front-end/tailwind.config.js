@@ -11,6 +11,7 @@ module.exports = {
       secondary: '#2FC18C',
       tertiary: '#421981',
       quaternary: '#056CF9',
+      ligthBgGreen: '#EAF1EF',
     },
     extend: {},
   },
