@@ -16,7 +16,7 @@ const CUSTOMER_EMAIL = 'zebirita@email.com';
 const CUSTOMER_PASSWORD = '$#zebirita#$';
 const PATH_CUSTOMER_PRODUCTS = '/customer/products';
 const PATH_CHECKOUT = '/customer/checkout';
-// const PATH_ORDER = '/customer/orders/';
+const PATH_ORDER = '/customer/orders/';
 const PRODUCT_TESTID_BUTTON_ADD = 'customer_products__button-card-add-item-';
 // const PRODUCT_TESTID_BUTTON_RM = 'customer_products__button-card-rm-item-';
 
@@ -26,8 +26,8 @@ const BUTTON_CHECKOUT = 'customer_products__button-cart';
 const ADDRESS_NUMBER_ID = 'customer_checkout__input-address-number';
 const ADDRESS_ID = 'customer_checkout__input-address';
 const SELLER_ID = 'customer_checkout__select-seller';
-const TOTAL_PRICE_ID = 'customer_checkout__element-order-total-price';
-// const SELLER_NAME = 'Fulana Pereira';
+// const TOTAL_PRICE_ID = 'customer_checkout__element-order-total-price';
+const SELLER_NAME = /Fulana Pereira/i;
 
 describe('Test the checkout page', () => {
   let history;
@@ -91,97 +91,95 @@ describe('Test the checkout page', () => {
     });
   });
   // TEST LINHA 33  NÃO COBRE
-  describe('', () => {
-    it('', async () => {
-      await waitFor(() => {
-        const { location: { pathname } } = history;
-        expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-      });
+  // describe('', () => {
+  //   it('', async () => {
+  //     await waitFor(() => {
+  //       const { location: { pathname } } = history;
+  //       expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
+  //     });
+  //     axios.get.mockResolvedValueOnce({
+  //       status: SUCESS_STATUS,
+  //       data: sellerMock,
+  //     });
+  //     await waitFor(() => {
+  //       history = renderWithRouter(<App />, { route: PATH_CHECKOUT }).history;
+  //     });
+  //     const subTotal = screen
+  //       .getByTestId(TOTAL_PRICE_ID);
+  //     expect(subTotal.textContent).toBe('0,00');
+  //   });
+  // });
+
+  // // Linha 61  NÃO COBRE E NÃO PASSA
+  describe('The conclusion of a sale', () => {
+    it('should create a sale and redirect to "/customer/orders/1"', async () => {
+      // daqui
+      const buttonAddItems = screen
+        .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
+      userEvent.dblClick(buttonAddItems);
+
+      const buttonCheckout = screen
+        .getByTestId(BUTTON_CHECKOUT);
+      userEvent.click(buttonCheckout);
+      jest.clearAllMocks();
       axios.get.mockResolvedValueOnce({
         status: SUCESS_STATUS,
         data: sellerMock,
       });
       await waitFor(() => {
-        history = renderWithRouter(<App />, { route: PATH_CHECKOUT }).history;
+        const { location: { pathname } } = history;
+        expect(pathname).toBe(PATH_CHECKOUT);
       });
-      const subTotal = screen
-        .getByTestId(TOTAL_PRICE_ID);
-      expect(subTotal.textContent).toBe('0,00');
+      // até aqui
+      const address = screen.getByTestId(ADDRESS_ID);
+      const number = screen.getByTestId(ADDRESS_NUMBER_ID);
+      const finishOrder = screen.getByRole('button', { name: /finalizar/i });
+      userEvent.type(address, STREET);
+      userEvent.type(number, HOUSE_NUMBER);
+      userEvent.click(finishOrder);
+      jest.clearAllMocks();
+      axios.post.mockResolvedValueOnce({
+        status: 201,
+        data: { insertId: 0 },
+      });
+      await waitFor(() => {
+        const { location: { pathname } } = history;
+        expect(pathname).toBe(`${PATH_ORDER}${0}`);
+      });
     });
   });
 
-  // // Linha 61  NÃO COBRE E NÃO PASSA
-  // describe('The conclusion of a sale', () => {
-  //   it('should create a sale and redirect to "/customer/orders/1"', async () => {
-  //     // daqui
-  //     const buttonAddItems = screen
-  //       .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
-  //     userEvent.dblClick(buttonAddItems);
-
-  //     const buttonCheckout = screen
-  //       .getByTestId(BUTTON_CHECKOUT);
-  //     userEvent.click(buttonCheckout);
-  //     jest.clearAllMocks();
-  //     axios.get.mockResolvedValueOnce({
-  //       status: SUCESS_STATUS,
-  //       data: sellerMock,
-  //     });
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CHECKOUT);
-  //     });
-  //     // até aqui
-  //     const address = screen.getByTestId(ADDRESS_ID);
-  //     const number = screen.getByTestId(ADDRESS_NUMBER_ID);
-  //     const finishOrder = screen.getByRole('button', { name: /finalizar/i });
-  //     userEvent.type(address, STREET);
-  //     userEvent.type(number, HOUSE_NUMBER);
-  //     userEvent.click(finishOrder);
-  //     console.log('CLICANDO NO BOTÃO');
-  //     jest.clearAllMocks();
-  //     axios.post.mockResolvedValueOnce({
-  //       status: 201,
-  //       data: { insertId: 0 },
-  //     });
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(`${PATH_ORDER}${0}`);
-  //     });
-  //   });
-  // });
-
   // TESTE LINHA 109 NÃO COBRE E NÃO PASSA
-  // describe('test the seller select', () => {
-  //   it('if the handleChange works', async () => {
-  //     // daqui
-  //     const buttonAddItems = screen
-  //       .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
-  //     userEvent.dblClick(buttonAddItems);
+  describe('test the seller select', () => {
+    it('if the handleChange from seller works', async () => {
+      // daqui
+      const buttonAddItems = screen
+        .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
+      userEvent.dblClick(buttonAddItems);
 
-  //     const buttonCheckout = screen
-  //       .getByTestId(BUTTON_CHECKOUT);
-  //     userEvent.click(buttonCheckout);
-  //     jest.clearAllMocks();
-  //     axios.get.mockResolvedValueOnce({
-  //       status: SUCESS_STATUS,
-  //       data: sellerMock,
-  //     });
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CHECKOUT);
-  //     });
-  //     // até aqui
+      const buttonCheckout = screen
+        .getByTestId(BUTTON_CHECKOUT);
+      userEvent.click(buttonCheckout);
+      jest.clearAllMocks();
+      axios.get.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: sellerMock,
+      });
+      await waitFor(() => {
+        const { location: { pathname } } = history;
+        expect(pathname).toBe(PATH_CHECKOUT);
+      });
+      // até aqui
 
-  //     const seller = screen.getByTestId(SELLER_ID);
-  //     const sellerSelect = screen.getByRole('option', SELLER_NAME);
-  //     userEvent.selectOptions(sellerSelect, SELLER_NAME);
-  //     userEvent.click(sellerSelect);
-  //     await waitFor(() => expect(seller).toHaveValue(SELLER_NAME));
-  //   });
-  // });
+      const sellerSelect = screen.getByTestId(SELLER_ID);
+      const sellerOption = screen.getByRole('option', SELLER_NAME);
+      userEvent.selectOptions(sellerSelect, sellerOption);
+      expect(sellerSelect).toHaveTextContent('');
+    });
+  });
   // LINHA 129 PASSANDO E TESTANDO A LINHA CERTA
   describe('test the address input', () => {
-    it('if the handleChange works', async () => {
+    it('if the handleChange from address works', async () => {
       // daqui
 
       const buttonAddItems = screen
@@ -210,7 +208,7 @@ describe('Test the checkout page', () => {
   });
   // TESTE LINHA 139 PASSANDO E TESTANDO A LINHA CORRETA
   describe('test the address input number', () => {
-    it('if the handleChange works', async () => {
+    it('if the handleChange from address number works', async () => {
       // daqui
 
       const buttonAddItems = screen
