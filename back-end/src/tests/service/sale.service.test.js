@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-const { User } = require('../../database/models');
+const { User, Sales } = require('../../database/models');
 
 const salesService = require('../../service/sales.service');
 // const salesService = require('../../service/sales.service');
@@ -13,7 +13,33 @@ const mockUser = {
     password: '123456789',
   }
 
-  const mockCreateSale = 
+  const mockCreateSale = {
+    "userEmail": "zebirita@email.com",
+    "sellerName": "Fulana Pereira",
+    "totalPrice": "4.40",
+    "deliveryAddress": "Rua da Trybe",
+    "deliveryNumber": "12",
+    "productsId": [1],
+    "quantity": 2,
+  };
+  
+  const mockZeBirita = {
+    email: 'zebirita@email.com',
+    name: 'Cliente Zé Birita',
+    role: 'customer',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoiemViaXJpdGFAZW1haWwuY29tIiwibmFtZSI6IkNsaWVudGUgWsOpIEJpcml0YSIsInJvbGUiOiJjdXN0b21lciJ9LCJpYXQiOjE2Nzg0ODUwODEsImV4cCI6MTY3ODU3MTQ4MX0._s1K_t26exwbZni_Ekhkz7w_rEiEYlPCjgBSu7aJ7AM',
+  };
+
+  const mockNewSale = {
+    id: 1,
+    // userId: 1,
+    // sellerId: 2,
+    // totalPrice,
+    // deliveryAddress,
+    // deliveryNumber,
+    // salesDate: Date.now(),
+    // status:
+  }
   
 
 describe('Test the sale service', () => {
@@ -31,13 +57,19 @@ describe('Test the sale service', () => {
       expect(response).to.be.equal(mockUser);
     });
 
-    // it('Test whether it returns an user by email', async function () {
-    //     sinon
-    //       .stub(Sales, 'create')
-    //       .resolves(mockCreateSale);
+    it('can create a sale', async function () {
+        sinon
+          .stub(Sales, 'create')
+          .resolves(mockZeBirita);
+
+          const userStub = sinon.stub(User, 'findOne');
+          userStub.onCall(0).resolves({ id: 1 });
+          userStub.onCall(1).resolves({ id: 2 });
   
-    //       const response = await salesService.createSale(mockCreateSale);
-  
-    //     expect(response).to.be.equal();
-    //   });
+          const response = await salesService.createSale(mockNewSale);
+        
+          // console.log(response, '<-- AQUI!');
+          // console.log(mockCreateSale, 'mockCreateSale');
+        expect(response).to.be.equal(mockNewSale);
+      });
   });

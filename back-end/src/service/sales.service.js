@@ -33,4 +33,6 @@ const createSale = async ({ userEmail, sellerName, totalPrice,
 
 module.exports = {
   createSale,
+  getUserByEmail,
+  getUserByName,
 };
