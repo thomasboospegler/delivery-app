@@ -5,6 +5,7 @@ import Context from '../context/Context';
 export default function Header() {
   const history = useHistory();
   const { lsUserData } = useContext(Context);
+  const location = window.location.pathname.split('/')[1];
 
   const cleanLocalStorage = async () => {
     localStorage.removeItem('user');
@@ -23,7 +24,7 @@ export default function Header() {
         </button>
         <button
           type="button"
-          onClick={ () => history.push('/customer/orders') }
+          onClick={ () => history.push(`/${location}/orders`) }
           data-testid="customer_products__element-navbar-link-orders"
         >
           MEUS PEDIDOS

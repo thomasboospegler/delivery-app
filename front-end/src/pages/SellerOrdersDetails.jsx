@@ -54,7 +54,7 @@ export default function SellerOrdersDetails() {
       // setStatus(orderDetails.status);
     };
     getOrders();
-  }, []);
+  }, [SLICE, location.pathname, lsUserData.token]);
   return (
     <div>
       <Header />
