@@ -14,7 +14,7 @@ export default function AdmTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data.map((user, i) => (
+        {data && data.map((user, i) => (
           <tr key={ `${user.name}-${i}` }>
             <td
               data-testid={ `admin_manage__element-user-table-item-number-${i}` }

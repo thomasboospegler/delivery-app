@@ -16,6 +16,15 @@ const createUser = async ({ name, email, password }) => {
   return User.create({ name, email, password: hash, role });
 };
 
+const admCreateUser = async ({ name, email, password, role = 'customer' }) => { 
+  const hash = md5(password);
+  const hasUser = await getUserByEmail(email);
+  if (hasUser) {
+    return null;
+  }
+  return User.create({ name, email, password: hash, role });
+};
+
 const getSellers = async () => {
   const seller = await User.findAll({
     where: { role: 'seller' },
@@ -41,4 +50,5 @@ module.exports = {
   getSellers,
   getUserById,
   getAll,
+  admCreateUser,
 };

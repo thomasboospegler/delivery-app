@@ -17,6 +17,7 @@ export default function AdmCreateUser() {
   const NAME_MIN_LENGTH = 12;
 
   const submitClick = async () => {
+    console.log(userByAdmin);
     const result = await admRegisterNewUser(lsUserData.token, userByAdmin);
     if (typeof result === 'string') {
       sethasError(true);
@@ -100,10 +101,11 @@ export default function AdmCreateUser() {
         Tipo:
         <select
           name="role"
+          value={ userByAdmin.role }
           onChange={ (e) => handleChage(e) }
+          onFocus={ (e) => handleChage(e) }
           id="typeRegisterByAdmin"
           data-testid="admin_manage__select-role"
-          defaultValue="customer"
         >
           <option value="customer">Cliente</option>
           <option value="seller">P. Vendedora</option>
