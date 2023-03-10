@@ -53,9 +53,13 @@ export default function Login() {
     if (result.status === SUCESS_STATUS) {
       setErrorMessage(false);
       saveOnLocalStorage(result.data.token);
-      return history.push('/customer/products');
+    } else {
+      setErrorMessage(true);
     }
-    setErrorMessage(true);
+    const decoded = parseJwt(result.data.token);
+    console.log(decoded);
+    if (decoded.data.role === 'seller') history.push('/seller/orders');
+    if (decoded.data.role === 'customer') history.push('/customer/products');
   };
 
   useEffect(() => {
