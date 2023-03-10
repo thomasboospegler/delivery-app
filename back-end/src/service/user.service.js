@@ -33,9 +33,12 @@ const getUserById = async (id) => {
   return user;
 };
 
+const getAll = async () => User.findAll();
+
 module.exports = {
   getUserByEmail,
   createUser,
   getSellers,
   getUserById,
+  getAll,
 };

@@ -42,9 +42,15 @@ const getUserById = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const getAll = async (_req, res) => {
+  const user = await userService.getAll();
+  return res.status(200).json(user);
+}
+
 module.exports = {
   login,
   createUser,
   getSellers,
   getUserById,
+  getAll,
 };
