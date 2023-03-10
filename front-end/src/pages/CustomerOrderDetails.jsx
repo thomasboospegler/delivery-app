@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Header from '../components/Header';
 import Context from '../context/Context';
-import { getCustomerOrderById } from '../api/orders';
+import { getCustomerOrderById, updateStatus } from '../api/orders';
 import { getUserById } from '../api/user';
 import OrderDetailTable from '../components/OrderDetailTable';
 
@@ -10,6 +10,20 @@ export default function CustomerOrderDetails() {
   const [order, setOrder] = useState({});
   const [seller, setSeller] = useState({});
   const testIdBase = 'customer_order_details__element-order-details';
+
+  const markAsReceived = async () => {
+    const result = await updateStatus(
+      lsUserData.token,
+      window.location.pathname.split('/')[3],
+      'Entregue',
+    );
+    if (result.status) {
+      setOrder((prev) => ({
+        ...prev,
+        status: 'Entregue',
+      }));
+    }
+  };
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -51,7 +65,8 @@ export default function CustomerOrderDetails() {
         <button
           type="button"
           data-testid="customer_order_details__button-delivery-check"
-          disabled={ order.status === 'Pendente' }
+          disabled={ order.status !== 'Em Trânsito' }
+          onClick={ markAsReceived }
         >
           MARCAR COMO ENTREGUE
         </button>

@@ -25,6 +25,7 @@ export const getOrderById = (token, id) => axios.get(
   },
 ).then((data) => Object.values(data.data))
   .catch((error) => error);
+
 export const updateStatus = (token, id, status) => axios.put(
   `http://localhost:3001/orders/status/${id}`,
   {
