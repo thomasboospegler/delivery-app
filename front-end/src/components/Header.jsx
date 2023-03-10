@@ -14,9 +14,10 @@ export default function Header() {
 
   return (
     <header>
-      <nav>
+      <nav className="flex h-16">
         <button
           type="button"
+          className="bg-secondary p-3 h-full md:pl-20 md:pr-20 font-semibold"
           onClick={ () => history.push('/customer/products') }
           data-testid="customer_products__element-navbar-link-products"
         >
@@ -24,6 +25,8 @@ export default function Header() {
         </button>
         <button
           type="button"
+          className="bg-primary text-white p-2 h-full grow
+            md:text-left md:pl-20 font-semibold"
           onClick={ () => history.push(`/${location}/orders`) }
           data-testid="customer_products__element-navbar-link-orders"
         >
@@ -31,20 +34,20 @@ export default function Header() {
         </button>
         <button
           type="button"
+          className="bg-tertiary text-white p-2 h-full md:pl-6 md:pr-6 font-semibold"
           data-testid="customer_products__element-navbar-user-full-name"
         >
           {lsUserData.name}
         </button>
-        <section>
-          <button
-            type="button"
-            onClick={ cleanLocalStorage }
-            name="logout"
-            data-testid="customer_products__element-navbar-link-logout"
-          >
-            Sair
-          </button>
-        </section>
+        <button
+          type="button"
+          className="bg-quaternary text-white p-2 h-full md:pl-6 md:pr-6 font-semibold"
+          onClick={ cleanLocalStorage }
+          name="logout"
+          data-testid="customer_products__element-navbar-link-logout"
+        >
+          Sair
+        </button>
       </nav>
     </header>
   );
