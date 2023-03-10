@@ -3,13 +3,13 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Products from './pages/Products';
-import './App.css';
 import Provider from './context/Provider';
 import Checkout from './pages/Checkout';
 import SellerOrders from './pages/SellerOrders';
 import CustomerOrders from './pages/CustomerOrders';
 import CustomerOrderDetails from './pages/CustomerOrderDetails';
 import SellerOrdersDetails from './pages/SellerOrdersDetails';
+import './App.css';
 
 function App() {
   return (
