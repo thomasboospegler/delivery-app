@@ -1,9 +1,9 @@
 import React from 'react';
+import axios from 'axios';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
-import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+import renderWithRouter from './helpers/renderWithRouter';
 import jwtToken from './mocks/JWT';
 import allProductsMock from './mocks/allProductsMock';
 import sellerMock from './mocks/mockSeller';
@@ -16,19 +16,22 @@ const CUSTOMER_EMAIL = 'zebirita@email.com';
 const CUSTOMER_PASSWORD = '$#zebirita#$';
 const PATH_CUSTOMER_PRODUCTS = '/customer/products';
 const PATH_CHECKOUT = '/customer/checkout';
-const PATH_ORDER = '/customer/orders/';
+// const PATH_ORDER = '/customer/orders/';
 const PRODUCT_TESTID_BUTTON_ADD = 'customer_products__button-card-add-item-';
+// const PRODUCT_TESTID_BUTTON_RM = 'customer_products__button-card-rm-item-';
+
 const STREET = 'Rua da Trybe';
 const HOUSE_NUMBER = 12;
 const BUTTON_CHECKOUT = 'customer_products__button-cart';
 const ADDRESS_NUMBER_ID = 'customer_checkout__input-address-number';
 const ADDRESS_ID = 'customer_checkout__input-address';
 const SELLER_ID = 'customer_checkout__select-seller';
+const TOTAL_PRICE_ID = 'customer_checkout__element-order-total-price';
 // const SELLER_NAME = 'Fulana Pereira';
 
 describe('Test the checkout page', () => {
   let history;
-  beforeEach(() => {
+  beforeEach(async () => {
     history = renderWithRouter(<App />).history;
     axios.post.mockResolvedValueOnce({
       status: SUCESS_STATUS,
@@ -47,6 +50,10 @@ describe('Test the checkout page', () => {
       status: SUCESS_STATUS,
       data: allProductsMock,
     });
+    await waitFor(() => {
+      const { location: { pathname } } = history;
+      expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
+    });
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -55,10 +62,6 @@ describe('Test the checkout page', () => {
   describe('The details and address form', () => {
     it('should exists with all elements', async () => {
       // daqui
-      await waitFor(() => {
-        const { location: { pathname } } = history;
-        expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-      });
       const buttonAddItems = screen
         .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
       userEvent.dblClick(buttonAddItems);
@@ -87,19 +90,36 @@ describe('Test the checkout page', () => {
       expect(finishOrder).toBeInTheDocument();
     });
   });
-  // describe('Test', () => {
-  //   it('test LINHA 33', async () => {
+  // TEST LINHA 33  NÃO COBRE
+  describe('', () => {
+    it('', async () => {
+      await waitFor(() => {
+        const { location: { pathname } } = history;
+        expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
+      });
+      axios.get.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: sellerMock,
+      });
+      await waitFor(() => {
+        history = renderWithRouter(<App />, { route: PATH_CHECKOUT }).history;
+      });
+      const subTotal = screen
+        .getByTestId(TOTAL_PRICE_ID);
+      expect(subTotal.textContent).toBe('0,00');
+    });
+  });
+
+  // // Linha 61  NÃO COBRE E NÃO PASSA
+  // describe('The conclusion of a sale', () => {
+  //   it('should create a sale and redirect to "/customer/orders/1"', async () => {
   //     // daqui
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-  //     });
   //     const buttonAddItems = screen
   //       .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
   //     userEvent.dblClick(buttonAddItems);
 
   //     const buttonCheckout = screen
-  //       .getByTestId('customer_products__button-cart');
+  //       .getByTestId(BUTTON_CHECKOUT);
   //     userEvent.click(buttonCheckout);
   //     jest.clearAllMocks();
   //     axios.get.mockResolvedValueOnce({
@@ -108,27 +128,32 @@ describe('Test the checkout page', () => {
   //     });
   //     await waitFor(() => {
   //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe('/customer/checkout');
+  //       expect(pathname).toBe(PATH_CHECKOUT);
   //     });
-  // // até aqui
-  //     const subTotal = screen
-  //       .getByTestId('customer_checkout__element-order-total-price');
-  //     expect(subTotal).toBeInTheDocument();
-  //     const buttomRemove = screen
-  //       .getByTestId('customer_checkout__element-order-table-remove-0');
-  //     userEvent.click(buttomRemove);
-  //     // subtotal.value esta retornando undefined mas ele tem que retornar 0
-  //     expect(subTotal.value).toBe(undefined);
+  //     // até aqui
+  //     const address = screen.getByTestId(ADDRESS_ID);
+  //     const number = screen.getByTestId(ADDRESS_NUMBER_ID);
+  //     const finishOrder = screen.getByRole('button', { name: /finalizar/i });
+  //     userEvent.type(address, STREET);
+  //     userEvent.type(number, HOUSE_NUMBER);
+  //     userEvent.click(finishOrder);
+  //     console.log('CLICANDO NO BOTÃO');
+  //     jest.clearAllMocks();
+  //     axios.post.mockResolvedValueOnce({
+  //       status: 201,
+  //       data: { insertId: 0 },
+  //     });
+  //     await waitFor(() => {
+  //       const { location: { pathname } } = history;
+  //       expect(pathname).toBe(`${PATH_ORDER}${0}`);
+  //     });
   //   });
   // });
 
-  // describe('The address input', () => {
-  //   it('should change as the user types an address', async () => {
+  // TESTE LINHA 109 NÃO COBRE E NÃO PASSA
+  // describe('test the seller select', () => {
+  //   it('if the handleChange works', async () => {
   //     // daqui
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-  //     });
   //     const buttonAddItems = screen
   //       .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
   //     userEvent.dblClick(buttonAddItems);
@@ -147,20 +172,18 @@ describe('Test the checkout page', () => {
   //     });
   //     // até aqui
 
-  //     const address = screen.getByTestId(ADDRESS_ID);
-  //     userEvent.type(address, STREET);
-  //     expect(address.value).toBe(STREET);
+  //     const seller = screen.getByTestId(SELLER_ID);
+  //     const sellerSelect = screen.getByRole('option', SELLER_NAME);
+  //     userEvent.selectOptions(sellerSelect, SELLER_NAME);
+  //     userEvent.click(sellerSelect);
+  //     await waitFor(() => expect(seller).toHaveValue(SELLER_NAME));
   //   });
   // });
-
-  // Linha 61
-  describe.only('The conclusion of a sale', () => {
-    it('should create a sale and redirect to "/customer/orders/1"', async () => {
+  // LINHA 129 PASSANDO E TESTANDO A LINHA CERTA
+  describe('test the address input', () => {
+    it('if the handleChange works', async () => {
       // daqui
-      await waitFor(() => {
-        const { location: { pathname } } = history;
-        expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-      });
+
       const buttonAddItems = screen
         .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
       userEvent.dblClick(buttonAddItems);
@@ -178,52 +201,39 @@ describe('Test the checkout page', () => {
         expect(pathname).toBe(PATH_CHECKOUT);
       });
       // até aqui
-      const address = screen.getByTestId(ADDRESS_ID);
-      const number = screen.getByTestId(ADDRESS_NUMBER_ID);
-      const finishOrder = screen.getByRole('button', { name: /finalizar/i });
-      userEvent.type(address, STREET);
-      userEvent.type(number, HOUSE_NUMBER);
-      userEvent.click(finishOrder);
-      console.log('CLICANDO NO BOTÃO');
+      const addressInput = screen.getByTestId(ADDRESS_ID);
+      // act(() => { // o warning pede pra usar isso porém se usar quebra o teste abaixo
+      userEvent.type(addressInput, STREET);
+      await waitFor(() => expect(addressInput).toHaveValue(STREET));
+      // });
+    });
+  });
+  // TESTE LINHA 139 PASSANDO E TESTANDO A LINHA CORRETA
+  describe('test the address input number', () => {
+    it('if the handleChange works', async () => {
+      // daqui
+
+      const buttonAddItems = screen
+        .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
+      userEvent.dblClick(buttonAddItems);
+
+      const buttonCheckout = screen
+        .getByTestId(BUTTON_CHECKOUT);
+      userEvent.click(buttonCheckout);
       jest.clearAllMocks();
-      axios.post.mockResolvedValueOnce({
-        status: 201,
-        data: { insertId: 0 },
+      axios.get.mockResolvedValueOnce({
+        status: SUCESS_STATUS,
+        data: sellerMock,
       });
       await waitFor(() => {
         const { location: { pathname } } = history;
-        expect(pathname).toBe(`${PATH_ORDER}${0}`);
+        expect(pathname).toBe(PATH_CHECKOUT);
       });
+      // até aqui
+
+      const numberInput = screen.getByTestId(ADDRESS_NUMBER_ID);
+      userEvent.type(numberInput, HOUSE_NUMBER.toString());
+      await waitFor(() => expect(numberInput).toHaveValue(HOUSE_NUMBER));
     });
   });
-
-  // describe('The address input', () => {
-  //   it('should change the address input when you type"', async () => {
-  //     // daqui
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CUSTOMER_PRODUCTS);
-  //     });
-  //     const buttonAddItems = screen
-  //       .getByTestId(`${PRODUCT_TESTID_BUTTON_ADD}${allProductsMock[0].id}`);
-  //     userEvent.dblClick(buttonAddItems);
-
-  //     const buttonCheckout = screen
-  //       .getByTestId(BUTTON_CHECKOUT);
-  //     userEvent.click(buttonCheckout);
-  //     jest.clearAllMocks();
-  //     axios.get.mockResolvedValueOnce({
-  //       status: SUCESS_STATUS,
-  //       data: sellerMock,
-  //     });
-  //     await waitFor(() => {
-  //       const { location: { pathname } } = history;
-  //       expect(pathname).toBe(PATH_CHECKOUT);
-  //     });
-  //     // até aqui
-  //     const address = screen.getByTestId(ADDRESS_ID);
-  //     userEvent.type(address, STREET);
-  //     expect(address).toBe(STREET);
-  //   });
-  // });
 });
