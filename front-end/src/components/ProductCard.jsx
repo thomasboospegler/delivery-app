@@ -83,55 +83,74 @@ export default function ProductCard({ product }) {
   });
 
   return (
-    <div key={ product.id }>
+    <div
+      className="flex flex-col w-60 h-80
+        border rounded-sm border-[#B1C2BE] drop-shadow-xl"
+      key={ product.id }
+    >
       <div
-        data-testid={ `customer_products__element-card-title-${product.id}` }
+        className="text-xl font-bold fixed top-2 left-2 bg-white
+          bg-opacity-50 p-2 rounded-xl"
       >
-        {product.name}
+        R$
+        {' '}
+        <span data-testid={ `customer_products__element-card-price-${product.id}` }>
+          {product.price.replace('.', ',')}
+        </span>
       </div>
       <img
         src={ product.urlImage }
-        width="10"
+        className="w-60 h-60 object-cover"
         alt="prodcartItemsucts-img"
         data-testid={ `customer_products__img-card-bg-image-${product.id}` }
       />
-      <div
-        data-testid={ `customer_products__element-card-price-${product.id}` }
+      <section
+        className="flex flex-col justify-center items-center h-20 gap-1
+          bg-ligthBgGreen pb-2"
       >
-        {product.price.replace('.', ',')}
-      </div>
-      <button
-        type="button"
-        data-testid={ `customer_products__button-card-add-item-${product.id}` }
-        onClick={ () => {
-          setQuantity(quantity + 1);
-          addItems(quantity + 1);
-        } }
-      >
-        +
-
-      </button>
-      <input
-        type="number"
-        value={ quantity }
-        onChange={ (e) => {
-          addManualy(e.target.value);
-          setQuantity(e.target.value);
-          totalHandler();
-        } }
-        data-testid={ `customer_products__input-card-quantity-${product.id}` }
-      />
-      <button
-        type="button"
-        data-testid={ `customer_products__button-card-rm-item-${product.id}` }
-        onClick={ () => {
-          setQuantity(quantity > 0 ? quantity - 1 : 0);
-          rmItem(quantity - 1);
-        } }
-      >
-        -
-
-      </button>
+        <div
+          data-testid={ `customer_products__element-card-title-${product.id}` }
+        >
+          {product.name}
+        </div>
+        <div>
+          <button
+            type="button"
+            className="bg-primary w-8 p-1 rounded-l-lg border-y border-l
+            text-white border-black font-bold"
+            data-testid={ `customer_products__button-card-rm-item-${product.id}` }
+            onClick={ () => {
+              setQuantity(quantity > 0 ? quantity - 1 : 0);
+              rmItem(quantity - 1);
+            } }
+          >
+            -
+          </button>
+          <input
+            type="number"
+            className="w-8 p-1 border-y text-center"
+            value={ quantity }
+            onChange={ (e) => {
+              addManualy(e.target.value);
+              setQuantity(e.target.value);
+              totalHandler();
+            } }
+            data-testid={ `customer_products__input-card-quantity-${product.id}` }
+          />
+          <button
+            type="button"
+            className="bg-primary w-8 p-1 rounded-r-lg border-y border-r
+              text-white border-black font-bold"
+            data-testid={ `customer_products__button-card-add-item-${product.id}` }
+            onClick={ () => {
+              setQuantity(quantity + 1);
+              addItems(quantity + 1);
+            } }
+          >
+            +
+          </button>
+        </div>
+      </section>
     </div>
   );
 }
