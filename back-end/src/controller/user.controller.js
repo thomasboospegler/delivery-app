@@ -45,7 +45,7 @@ const getUserById = async (req, res) => {
 const getAll = async (_req, res) => {
   const user = await userService.getAll();
   return res.status(200).json(user);
-}
+};
 
 module.exports = {
   login,
