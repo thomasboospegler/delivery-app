@@ -14,13 +14,13 @@ const mockUser = {
   }
 
   const mockCreateSale = {
-    "userEmail": "zebirita@email.com",
-    "sellerName": "Fulana Pereira",
-    "totalPrice": "4.40",
-    "deliveryAddress": "Rua da Trybe",
-    "deliveryNumber": "12",
-    "productsId": [1],
-    "quantity": 2,
+    userEmail: 'zebirita@email.com',
+    sellerName: 'Fulana Pereira',
+    totalPrice: '4.40',
+    deliveryAddress: 'Rua da Trybe',
+    deliveryNumber: '12',
+    productsId: [1],
+    quantity: 2,
   };
   
   const mockZeBirita = {
@@ -34,13 +34,23 @@ const mockUser = {
     id: 1,
     // userId: 1,
     // sellerId: 2,
-    // totalPrice,
-    // deliveryAddress,
-    // deliveryNumber,
+    // totalPrice: '10.00',
+    // deliveryAddress: 'Rua da Trybe',
+    // deliveryNumber: '12',
     // salesDate: Date.now(),
-    // status:
-  }
+    // status: '',
+  };
   
+  const mockSaleProduct = {
+    saleId: 1,
+    productId: 1,
+    quantity: 2,
+  };
+
+  const failingMockSaleProduct = {
+    saleId: 1,
+    productId: 1,
+  };
 
 describe('Test the sale service', () => {
     afterEach(function () {
@@ -58,18 +68,36 @@ describe('Test the sale service', () => {
     });
 
     it('can create a sale', async function () {
+      const saleIdMock = 1;
+      sinon
+        .stub(Sales, 'create')
+        .resolves(mockZeBirita);
+
+        const userStub = sinon.stub(User, 'findOne');
+        userStub.onCall(0).resolves({ id: 1 });
+        userStub.onCall(1).resolves({ id: 2 });
+
+        const response = await salesService.createSale(mockCreateSale);
+      
+        // console.log(response, '<-- AQUI!');
+        // console.log(mockCreateSale, 'mockCreateSale');
+      expect(response).to.be.equal(mockNewSale.id);
+      });
+
+      it('returns null if salesProducts doesn`t exist', async function () {
+        const saleIdMock = 1;
         sinon
           .stub(Sales, 'create')
           .resolves(mockZeBirita);
-
+  
           const userStub = sinon.stub(User, 'findOne');
           userStub.onCall(0).resolves({ id: 1 });
           userStub.onCall(1).resolves({ id: 2 });
   
-          const response = await salesService.createSale(mockNewSale);
+          const response = await salesService.createSale(mockCreateSale);
         
           // console.log(response, '<-- AQUI!');
           // console.log(mockCreateSale, 'mockCreateSale');
-        expect(response).to.be.equal(mockNewSale);
-      });
+        expect(response).to.be.equal(null);
+        });
   });
