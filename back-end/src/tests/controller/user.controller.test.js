@@ -97,6 +97,32 @@ describe('Test the user controller', () => {
 
       expect(res.status.calledWith(201)).to.be.equal(true);
     });
+
+    it('Test if the state of the request is 400', async function () {
+      const res = {};
+      const req = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(userService, 'getSellers')
+        .throwsException()
+
+      await userController.getSellers(req, res);
+      expect(res.status.calledWith(400)).to.be.equal(true);
+    });
+
+    it('Test if the state of the request is 200', async function () {
+      const res = {};
+      const req = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(userService, 'getSellers')
+        .resolves();
+
+      await userController.getSellers(req, res);
+      expect(res.status.calledWith(200)).to.be.equal(true);
+    });
   });
 });
 

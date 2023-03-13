@@ -65,7 +65,6 @@ export default function Checkout() {
   useEffect(() => {
     const getInitialSellers = async () => {
       const sellersFromApi = await getSellers();
-
       setSellers(sellersFromApi.data);
 
       setSellerDefault(...Object.values(sellersFromApi.data[0]));

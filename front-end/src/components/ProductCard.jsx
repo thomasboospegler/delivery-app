@@ -24,7 +24,7 @@ export default function ProductCard({ product }) {
   };
 
   const addManualy = (value) => {
-    if (value === 0) {
+    if (value === 0 || value === '0') {
       const newCartItems = { ...cartItems };
       delete newCartItems[product.id];
       return setCartItems(newCartItems);
@@ -45,7 +45,7 @@ export default function ProductCard({ product }) {
   };
 
   const rmItem = (itemQuantity) => {
-    if (itemQuantity === 0) {
+    if (itemQuantity === 0 || itemQuantity === '0') {
       const newCartItems = { ...cartItems };
       delete newCartItems[product.id];
       setCartItems(newCartItems);

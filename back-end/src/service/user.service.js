@@ -20,11 +20,7 @@ const getSellers = async () => {
   const seller = await User.findAll({
     where: { role: 'seller' },
     attributes: ['name'],
-  })
-    .then((name) => name)
-    .catch((error) => {
-      throw new Error(error);
-    });
+  });
   return seller;
 };
 
