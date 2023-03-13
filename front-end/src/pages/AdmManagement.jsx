@@ -8,7 +8,7 @@ import { deletedUser, getAll } from '../api/user';
 
 export default function AdmManagement() {
   const { lsUserData } = useContext(Context);
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState();
   const history = useHistory();
   const removeUser = async (id) => deletedUser(id, lsUserData.token);
 
