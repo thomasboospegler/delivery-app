@@ -110,3 +110,15 @@ export const admRegisterNewUser = async (token, user) => axios
       return 'internal server error';
     }
   });
+
+export const deletedUser = (id, token) => axios.delete(
+  `http://localhost:3001/admin/delete/${id}`,
+  {
+    headers: {
+      'content-type': CONTEXT_TYPE,
+      authorization: token,
+    },
+  },
+)
+  .then((data) => data)
+  .catch((error) => error);

@@ -4,12 +4,13 @@ import Header from '../components/Header';
 import AdmCreateUser from '../components/AdmCreateUser';
 import Context from '../context/Context';
 import AdmTable from '../components/AdmTable';
-import { getAll } from '../api/user';
+import { deletedUser, getAll } from '../api/user';
 
 export default function AdmManagement() {
   const { lsUserData } = useContext(Context);
   const [users, setUsers] = useState([]);
   const history = useHistory();
+  const removeUser = async (id) => deletedUser(id, lsUserData.token);
 
   useEffect(() => {
     if (lsUserData.role !== 'administrator') {
@@ -28,7 +29,7 @@ export default function AdmManagement() {
     <div>
       <Header />
       <AdmCreateUser />
-      { users && <AdmTable data={ users } /> }
+      { users && <AdmTable data={ users } removeUser={ removeUser } /> }
     </div>
   );
 }

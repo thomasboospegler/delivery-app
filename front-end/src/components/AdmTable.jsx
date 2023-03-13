@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function AdmTable({ data }) {
+export default function AdmTable({ data, removeUser }) {
   return (
     <table>
       <thead>
@@ -40,6 +40,7 @@ export default function AdmTable({ data }) {
               <button
                 type="button"
                 data-testid={ `admin_manage__element-user-table-remove-${i}` }
+                onClick={ () => removeUser(user.id) }
               >
                 Excluir
               </button>
@@ -58,4 +59,5 @@ AdmTable.propTypes = {
     role: PropTypes.string,
     map: PropTypes.func,
   })).isRequired,
+  removeUser: PropTypes.func.isRequired,
 };
