@@ -45,7 +45,7 @@ const getUserById = async (id) => {
 const deleteUser = async (id) => {
   const deletedUser = await User.destroy({ where: { id } });
   return deletedUser;
-}
+};
 
 const getAll = async () => User.findAll();
 

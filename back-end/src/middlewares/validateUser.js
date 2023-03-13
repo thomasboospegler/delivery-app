@@ -39,12 +39,12 @@ const validateTokenAdm = async (req, res, next) => {
     const decoded = jwt.verify(token, jwtKey);
     console.log(decoded);
     if (decoded.data.role !== 'administrator') {
-      return res.status(401).json({ message: 'you are not authorized'});
+      return res.status(401).json({ message: 'you are not authorized' });
     }
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
-}
+};
 
 module.exports = { validateUser, validateToken, validateTokenAdm };
